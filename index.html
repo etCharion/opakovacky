@@ -517,6 +517,53 @@
     </div>
 
     <script>
+        // Otevře modal pro úpravu jména a ikony daného hráče
+        function openEditPlayerModal(index) {
+            const player = players[index];
+        
+            const contentHTML = `
+                <div class="text-left">
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Jméno hráče</label>
+                    <input id="edit-player-name" type="text" value="${player.name}"
+                           class="w-full p-2 border border-gray-300 rounded mb-4" />
+        
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Ikona (emoji)</label>
+                    <input id="edit-player-emoji" type="text" value="${player.emoji}"
+                           class="w-full p-2 border border-gray-300 rounded"
+                           maxlength="4" />
+                    <p class="text-xs text-gray-500 mt-2">
+                        Tip: zadej libovolné emoji (např. 🚀, 🌟). Pokud necháš prázdné, zůstane původní.
+                    </p>
+                </div>
+            `;
+        
+            showGameModal(
+                "Upravit hráče",
+                contentHTML,
+                "Uložit",
+                () => {
+                    const nameInput = document.getElementById('edit-player-name');
+                    const emojiInput = document.getElementById('edit-player-emoji');
+        
+                    const newName = (nameInput?.value ?? "").trim();
+                    const newEmoji = (emojiInput?.value ?? "").trim();
+        
+                    if (newName.length > 0) {
+                        player.name = newName;
+                    }
+                    if (newEmoji.length > 0) {
+                        // Necháme libovolné emoji/znak(y); hra to nijak nerozbije.
+                        player.emoji = newEmoji;
+                    }
+        
+                    // Aktualizuj zobrazení skóre (karty hráčů se překreslí s novými údaji)
+                    window.updateScoreDisplay();
+                },
+                "Zrušit",
+                () => {} // Zavřít bez změn
+            );
+        }
+
         // Function to generate coin SVG
         function getCoinSvgIcon() {
             return `<svg xmlns="http://www.w3.org/2000/svg" class="inline-block w-4 h-4 ml-1" viewBox="0 0 24 24" fill="#FFD700" stroke="#B8860B" stroke-width="1.5">
@@ -941,31 +988,43 @@
 
         // Updates the score and remaining cards displayed on the screen.
         // Explicitly defining on window object to ensure global accessibility
+        // ⬇️ NAHRAĎ tímto celý původní blok window.updateScoreDisplay = function() { ... }
         window.updateScoreDisplay = function() { 
-            // Clear existing score cards first, except for remaining cards display
+            // Vyčisti existující karty (zůstává jen "Zbývá: ...", který znovu připojíme níže)
             if (allPlayersScoreDisplay) allPlayersScoreDisplay.innerHTML = ''; 
-
+        
             players.forEach((player, index) => {
                 const playerScoreCard = document.createElement('div');
                 playerScoreCard.classList.add('player-score-card');
                 if (index === currentPlayerIndex) {
                     playerScoreCard.classList.add('current-player');
                 }
-
+        
                 playerScoreCard.innerHTML = `
                     <span class="player-score-emoji">${player.emoji}</span>
                     <span class="player-score-name" style="color: ${player.color};">${player.name}</span>
                     <span class="player-score-points">${player.score} bodů</span>
                 `;
+        
+                // ✅ Nové: umožní kliknutím upravit jméno/ikonu (bez změny vzhledu či logiky)
+                playerScoreCard.title = 'Kliknutím upravíte jméno a ikonu';
+                playerScoreCard.addEventListener('click', () => openEditPlayerModal(index));
+        
                 if (allPlayersScoreDisplay) allPlayersScoreDisplay.appendChild(playerScoreCard);
             });
-
-            // Re-append the remaining cards display (it was removed by innerHTML = '')
-            if (allPlayersScoreDisplay && remainingCardsDisplay) allPlayersScoreDisplay.appendChild(remainingCardsDisplay);
-
+        
+            // Znovu připojit "Zbývá: ..." ukazatel
+            if (allPlayersScoreDisplay && remainingCardsDisplay) {
+                allPlayersScoreDisplay.appendChild(remainingCardsDisplay);
+            }
+        
             const remaining = TOTAL_CARDS_TO_ANSWER - answeredCardsTotal;
-            if (remainingCardsDisplay) remainingCardsDisplay.textContent = `Zbývá: ${Math.max(0, remaining)} kartiček`; // Ensure it doesn't go below 0
-        }
+            if (remainingCardsDisplay) {
+                remainingCardsDisplay.textContent = `Zbývá: ${Math.max(0, remaining)} kartiček`;
+                remainingCardsDisplay.classList.remove('hidden'); // Pro jistotu viditelné po startu hry
+            }
+        };
+
 
         /**
          * Populates the grid initially with 9 new unique cards.
