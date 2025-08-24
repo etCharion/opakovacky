@@ -13,7 +13,7 @@
             background-color: #f0f4f8;
             display: flex;
             justify-content: center;
-            align-items: flex-start; /* Změněno z 'center' na 'flex-start' pro zarovnání nahoru */
+            align-items: flex-start;
             min-height: 100vh;
             padding: 20px;
             box-sizing: border-box;
@@ -29,74 +29,70 @@
             display: flex;
             flex-direction: column;
             gap: 20px;
-            margin-top: 50px; /* Přidáno pro posunutí od horního okraje */
+            margin-top: 50px;
         }
         /* New wrapper for row bonus indicators and card grid */
         .grid-layout-wrapper {
             display: flex;
-            /* No direct gap here, spacing will be managed by absolute positioning and grid-container margin */
-            align-items: flex-start; /* Align items to the top of the flex container */
+            align-items: flex-start;
             justify-content: center;
-            flex-wrap: wrap; /* Allow wrapping on smaller screens */
-            padding-top: 20px; /* Consistent top padding for the whole section */
-            position: relative; /* Crucial for absolute positioning of row-bonus-indicators */
-            width: 100%; /* Ensure it takes full width to position child absolutely */
+            flex-wrap: wrap;
+            padding-top: 20px;
+            position: relative;
+            width: 100%;
         }
         .row-bonus-indicators {
             display: flex;
             flex-direction: column;
-            justify-content: space-around; /* Distribute items evenly along the column */
+            justify-content: space-around;
             font-weight: bold;
             color: #4a5568;
             text-align: center;
-            width: 30px; /* Narrow width for the container */
+            width: 30px;
             box-sizing: border-box;
             flex-shrink: 0;
-            border-right: 2px solid #cbd5e0; /* Still a right border */
-            padding-right: 5px; /* Smaller padding */
-            align-self: stretch; /* Make this element stretch to the height of its sibling (grid-container) */
-            position: absolute; /* Absolute positioning */
-            left: 0; /* Align to the far left of the wrapper */
-            top: 20px; /* Match the top padding of the wrapper */
-            bottom: 0; /* Extend to the bottom of the wrapper */
-            transform-origin: center center; /* For potential future transformations */
+            border-right: 2px solid #cbd5e0;
+            padding-right: 5px;
+            align-self: stretch;
+            position: absolute;
+            left: 0;
+            top: 20px;
+            bottom: 0;
+            transform-origin: center center;
         }
         .row-bonus-indicator-item {
             font-size: 0.9rem;
             color: #2d3748;
-            display: flex; /* Keep it as flex for its own content */
-            align-items: center; /* Vertically center content */
-            justify-content: center; /* Horizontally center content */
-            flex-grow: 1; /* Make it take equal available space */
-            position: relative; /* For absolute positioning of its inner span */
-            height: 100%; /* Ensure it fills its flex-grown space */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-grow: 1;
+            position: relative;
+            height: 100%;
         }
-
-        .row-bonus-indicator-item span { /* The actual text inside */
+        .row-bonus-indicator-item span {
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%) rotate(-90deg); /* Rotate text from bottom to top */
+            transform: translate(-50%, -50%) rotate(-90deg);
             transform-origin: center center;
-            white-space: nowrap; /* Prevent text wrapping */
-            padding: 0; /* No extra padding */
-            margin: 0; /* No extra margin */
-            display: flex; /* To align "Bonus:" and coins horizontally */
-            align-items: center; /* Vertically align bonus content */
-            justify-content: center; /* Center content horizontally */
+            white-space: nowrap;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-
         .grid-container {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 15px;
             flex-grow: 1;
-            margin-top: 0; /* Ensure no conflicting top margin */
-            margin-left: 50px; /* Add margin to make space for the vertical indicators */
-            /* This margin needs to be wide enough to accommodate the rotated text */
+            margin-top: 0;
+            margin-left: 50px;
         }
         .card {
-            background-color: #e2e8f0; /* Default background */
+            background-color: #e2e8f0;
             border-radius: 10px;
             padding: 15px;
             aspect-ratio: 1 / 1;
@@ -113,34 +109,32 @@
             text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
             text-align: center;
         }
-        .card:hover:not(.selected):not(.answered) { /* Only hover if not selected/answered */
+        .card:hover:not(.selected):not(.answered) {
             transform: translateY(-5px);
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
         }
         .card.selected {
             border: 4px solid #4299e1;
-            cursor: not-allowed; /* Change cursor when selected */
+            cursor: not-allowed;
         }
         .card.answered {
-            background-color: #cbd5e0 !important; /* Override color when answered */
+            background-color: #cbd5e0 !important;
             cursor: not-allowed;
             opacity: 0.7;
         }
-        /* Difficulty specific colors */
-        .card.difficulty-1-color { background-color: #d1fae5; } /* Tailwind green-200 */
-        .card.difficulty-2-color { background-color: #fefcbf; } /* Tailwind yellow-200 */
-        .card.difficulty-3-color { background-color: #fee2e2; } /* Tailwind red-200 */
-
+        .card.difficulty-1-color { background-color: #d1fae5; }
+        .card.difficulty-2-color { background-color: #fefcbf; }
+        .card.difficulty-3-color { background-color: #fee2e2; }
         .difficulty-indicator {
             position: absolute;
-            bottom: 5px; /* Change to bottom */
+            bottom: 5px;
             right: 5px;
             font-size: 0.75rem;
             color: #4a5568;
             font-weight: normal;
-            display: flex; /* Ensure content is flex to align Bonus: and coins */
+            display: flex;
             align-items: center;
-            gap: 2px; /* Small gap between "Bonus:" and coins */
+            gap: 2px;
         }
         .question-area {
             background-color: #edf2f7;
@@ -213,7 +207,7 @@
             justify-content: center;
             gap: 20px;
             align-items: center;
-            flex-wrap: wrap; /* Allow wrapping for multiple player scores */
+            flex-wrap: wrap;
         }
         .player-score-card {
             display: flex;
@@ -228,16 +222,16 @@
             text-align: center;
         }
         .player-score-card.current-player {
-            background-color: #d1e7ff; /* Light blue background for current player */
-            border: 2px solid #007bff; /* Blue border for current player */
-            transform: translateY(-3px); /* Slightly lift current player card */
+            background-color: #d1e7ff;
+            border: 2px solid #007bff;
+            transform: translateY(-3px);
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
         .player-score-name {
             font-weight: bold;
             font-size: 1.1rem;
             margin-bottom: 5px;
-            color: #2c5282; /* Default name color */
+            color: #2c5282;
         }
         .player-score-emoji {
             font-size: 1.5rem;
@@ -246,16 +240,14 @@
         .player-score-points {
             font-weight: bold;
             font-size: 1.3rem;
-            color: #2c5282; /* Default score color */
+            color: #2c5282;
         }
-        
         .remaining-cards-display {
             font-size: 1.2rem;
             color: #4a5568;
-            width: 100%; /* Take full width to center below scores */
-            margin-top: 10px; /* Add some space from score cards */
+            width: 100%;
+            margin-top: 10px;
         }
-
         /* Modal styling */
         .modal-overlay {
             position: fixed;
@@ -284,9 +276,8 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
             max-width: 500px;
             width: 90%;
-            /* Added max-height for scrollability in results modal */
-            max-height: 90vh; /* Limit height to 90% of viewport height */
-            overflow-y: auto; /* Enable vertical scrolling */
+            max-height: 90vh;
+            overflow-y: auto;
             transform: translateY(-20px);
             transition: transform 0.3s ease-in-out;
         }
@@ -299,16 +290,16 @@
             color: #2d3748;
         }
         .modal-content p {
-            font-size: 1.0rem; /* Slightly smaller font for compactness */
+            font-size: 1.0rem;
             color: #4a5568;
-            margin-bottom: 8px; /* Adjusted for multiple paragraphs */
+            margin-bottom: 8px;
             text-align: left;
         }
         .modal-content ul {
             text-align: left;
             margin-bottom: 15px;
-            max-height: 200px; /* Limit height for scrollable content */
-            overflow-y: auto; /* Enable scrolling */
+            max-height: 200px;
+            overflow-y: auto;
             border: 1px solid #e2e8f0;
             padding: 10px;
             border-radius: 8px;
@@ -329,11 +320,11 @@
         }
         .modal-content .answer-text-small {
             font-size: 0.95rem;
-            color: #48bb78; /* Correct answer in green */
+            color: #48bb78;
         }
         .modal-content .user-answer-text-small {
             font-size: 0.95rem;
-            color: #f56565; /* User's incorrect answer in red */
+            color: #f56565;
         }
         .modal-buttons-container {
             display: flex;
@@ -359,45 +350,44 @@
         .modal-button.secondary:hover {
             background-color: #5a6268;
         }
-
-        /* Responsive adjustments for smaller screens */
+        /* Responsive adjustments */
         @media (max-width: 768px) {
             .grid-layout-wrapper {
-                flex-direction: column; /* Stack row indicators and grid */
+                flex-direction: column;
                 align-items: center;
-                padding-top: 10px; /* Adjust top padding for smaller screens */
+                padding-top: 10px;
             }
             .row-bonus-indicators {
-                position: static; /* Remove absolute positioning on mobile */
+                position: static;
                 width: 100%;
-                flex-direction: row; /* Make row indicators horizontal */
+                flex-direction: row;
                 justify-content: center;
                 border-right: none;
-                border-bottom: 2px solid #cbd5e0; /* Add bottom border */
+                border-bottom: 2px solid #cbd5e0;
                 padding-right: 0;
                 padding-bottom: 10px;
-                align-self: auto; /* Reset align-self */
+                align-self: auto;
                 min-height: auto;
-                height: auto; /* Allow height to be determined by content */
+                height: auto;
             }
             .row-bonus-indicator-item {
-                border-right: none; /* Remove right border */
+                border-right: none;
                 justify-content: center;
                 padding: 5px;
                 min-height: auto;
-                flex-grow: 0; /* No grow on mobile horizontal */
+                flex-grow: 0;
             }
             .row-bonus-indicator-item span {
-                position: static; /* Remove absolute positioning on mobile */
-                transform: none; /* Remove rotation on mobile */
-                white-space: normal; /* Allow wrapping on mobile */
+                position: static;
+                transform: none;
+                white-space: normal;
             }
             .grid-container {
-                margin-top: 10px; /* Reduce top margin */
-                margin-left: 0; /* Remove left margin on mobile */
+                margin-top: 10px;
+                margin-left: 0;
             }
             .card {
-                font-size: 0.9rem; /* Smaller font on small screens */
+                font-size: 0.9rem;
                 padding: 10px;
             }
             .score-display {
@@ -409,114 +399,149 @@
                 padding: 8px 12px;
             }
             .modal-content {
-                max-height: 80vh; /* Adjust modal max-height for very small screens */
+                max-height: 80vh;
             }
         }
+        /* Two-column layout for desktop */
+        .game-container { max-width: 1200px; }
+        .main-layout { display: flex; gap: 24px; align-items: flex-start; }
+        .sidebar {
+            width: 260px;
+            flex-shrink: 0;
+            position: sticky;
+            top: 20px;
+            align-self: stretch;
+        }
+        .content { flex: 1; min-width: 0; }
+        /* Scoreboard styling in side column */
+        .score-display--side {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: flex-start;
+            gap: 12px;
+        }
+        .score-display--side .player-score-card { width: 100%; }
+        .score-display--side .remaining-cards-display { width: 100%; text-align: center; margin-top: 6px; }
+        /* Responsive: revert to top layout on tablets/mobile */
+        @media (max-width: 1024px) {
+            .main-layout { flex-direction: column; }
+            .sidebar { position: static; width: 100%; }
+            .score-display--side {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 20px;
+            }
+            .score-display--side .player-score-card { width: auto; min-width: 120px; }
+        }
+    
+        /* Center layout when sidebar hidden (setup screen) */
+        #main-layout.centered {
+            justify-content: center;
+        }
+        #main-layout.centered .content {
+            flex: none;
+        }
+        #main-layout.centered .sidebar {
+            display: none;
+        }
+
     </style>
 </head>
 <body>
-    <div class="game-container">
-        <!-- Removed h1 title as per request -->
-        <!-- Added a div for the title to remove the "Opakovačky" text -->
-        <div class="text-4xl font-extrabold text-blue-800 mb-6"></div> 
-        <div id="all-players-score-display" class="score-display">
-            <!-- All player score cards will be rendered here by JS -->
-            <span class="remaining-cards-display hidden" id="remaining-cards-display">Zbývá: -- kartiček</span>
+  <div class="game-container">
+    <div class="text-4xl font-extrabold text-blue-800 mb-6"></div>
+    <div id="main-layout" class="main-layout centered">
+      <!-- Sidebar: scoreboard -->
+      <aside class="sidebar">
+        <div id="all-players-score-display" class="score-display score-display--side">
+          <span class="remaining-cards-display hidden" id="remaining-cards-display">Zbývá: -- kartiček</span>
         </div>
-        
-        <!-- The individual player turn indicator below the main score area -->
-        <!-- This is now integrated into the all-players-score-display by highlighting -->
-
-
-        <!-- Game Setup Screen -->
+      </aside>
+      <!-- Content: setup and game -->
+      <section class="content">
+        <!-- Setup screen -->
         <div id="game-setup-screen" class="flex flex-col items-center">
-            <h2 class="text-2xl font-bold text-gray-800 mb-4">Nastavení hry</h2>
-            
-            <div class="mb-4">
-                <label for="num-players" class="block text-gray-700 text-sm font-bold mb-2">Počet hráčů: <span id="num-players-value">1</span></label>
-                <input type="range" id="num-players" value="1" min="1" max="5" 
-                       class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer range-lg">
-            </div>
-
-            <div class="mb-6">
-                <label for="total-cards-input" class="block text-gray-700 text-sm font-bold mb-2">Celkem otázek: <span id="total-cards-value">15</span></label>
-                <input type="range" id="total-cards-input" value="15" min="1"
-                       class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer range-lg">
-            </div>
-
-            <div class="mb-6">
-                <label for="flashcard-set-select" class="block text-gray-700 text-sm font-bold mb-2">Vybrat sadu kartiček:</label>
-                <select id="flashcard-set-select" class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                    <!-- Options will be populated by JS -->
-                </select>
-            </div>
-
-
-            <p class="text-md text-gray-600 mb-8" id="game-instructions">Základní bodování: +1 za správnou, -1 za špatnou. Bonusy za řádek a obtížnost se přičítají/odečítají k tomu.</p>
-            <button id="setup-game-button" class="start-button">Začít hru</button>
+          <h2 class="text-2xl font-bold text-gray-800 mb-4">Nastavení hry</h2>
+          <div class="mb-4">
+            <label for="num-players" class="block text-gray-700 text-sm font-bold mb-2">
+              Počet hráčů: <span id="num-players-value">1</span>
+            </label>
+            <input type="range" id="num-players" value="1" min="1" max="5"
+                   class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer range-lg">
+          </div>
+          <div class="mb-6">
+            <label for="total-cards-input" class="block text-gray-700 text-sm font-bold mb-2">
+              Celkem otázek: <span id="total-cards-value">15</span>
+            </label>
+            <input type="range" id="total-cards-input" value="15" min="1"
+                   class="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer range-lg">
+          </div>
+          <div class="mb-6">
+            <label for="flashcard-set-select" class="block text-gray-700 text-sm font-bold mb-2">
+              Vybrat sadu kartiček:
+            </label>
+            <select id="flashcard-set-select"
+                    class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+            </select>
+          </div>
+          <p class="text-md text-gray-600 mb-8" id="game-instructions">
+            Základní bodování: +1 za správnou, -1 za špatnou. Bonusy za řádek a obtížnost se přičítají/odečítají k tomu.
+          </p>
+          <button id="setup-game-button" class="start-button">Začít hru</button>
         </div>
-
-
+        <!-- Game play area -->
         <div id="game-play-area" class="hidden">
-            <div class="grid-layout-wrapper">
-                <div class="row-bonus-indicators">
-                    <div class="row-bonus-indicator-item">
-                        <span>Bonus: 
-                            <!-- No coin for 0 points (Difficulty 1) -->
-                        </span>
-                    </div>
-                    <div class="row-bonus-indicator-item">
-                        <span>Bonus: 
-                            <svg xmlns="http://www.w3.org/2000/svg" class="inline-block w-4 h-4 ml-1" viewBox="0 0 24 24" fill="#FFD700" stroke="#B8860B" stroke-width="1.5">
-                                <circle cx="12" cy="12" r="10"/>
-                                <text x="12" y="15" font-family="Verdana" font-size="10" fill="#FFFFFF" text-anchor="middle" font-weight="bold">★</text>
-                            </svg>
-                        </span>
-                    </div>
-                    <div class="row-bonus-indicator-item">
-                        <span>Bonus: 
-                            <svg xmlns="http://www.w3.org/2000/svg" class="inline-block w-4 h-4 ml-1" viewBox="0 0 24 24" fill="#FFD700" stroke="#B8860B" stroke-width="1.5">
-                                <circle cx="12" cy="12" r="10"/>
-                                <text x="12" y="15" font-family="Verdana" font-size="10" fill="#FFFFFF" text-anchor="middle" font-weight="bold">★</text>
-                            </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="inline-block w-4 h-4 ml-1" viewBox="0 0 24 24" fill="#FFD700" stroke="#B8860B" stroke-width="1.5">
-                                <circle cx="12" cy="12" r="10"/>
-                                <text x="12" y="15" font-family="Verdana" font-size="10" fill="#FFFFFF" text-anchor="middle" font-weight="bold">★</text>
-                            </svg>
-                        </span>
-                    </div>
-                </div>
-                <div class="grid-container" id="card-grid">
-                    <!-- Cards will be generated here by JS -->
-                </div>
+          <div class="grid-layout-wrapper">
+            <div class="row-bonus-indicators">
+              <div class="row-bonus-indicator-item"><span>Bonus: </span></div>
+              <div class="row-bonus-indicator-item">
+                <span>Bonus:
+                  <svg xmlns="http://www.w3.org/2000/svg" class="inline-block w-4 h-4 ml-1" viewBox="0 0 24 24" fill="#FFD700" stroke="#B8860B" stroke-width="1.5">
+                    <circle cx="12" cy="12" r="10"/>
+                    <text x="12" y="15" font-family="Verdana" font-size="10" fill="#FFFFFF" text-anchor="middle" font-weight="bold">★</text>
+                  </svg>
+                </span>
+              </div>
+              <div class="row-bonus-indicator-item">
+                <span>Bonus:
+                  <svg xmlns="http://www.w3.org/2000/svg" class="inline-block w-4 h-4 ml-1" viewBox="0 0 24 24" fill="#FFD700" stroke="#B8860B" stroke-width="1.5">
+                    <circle cx="12" cy="12" r="10"/>
+                    <text x="12" y="15" font-family="Verdana" font-size="10" fill="#FFFFFF" text-anchor="middle" font-weight="bold">★</text>
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" class="inline-block w-4 h-4 ml-1" viewBox="0 0 24 24" fill="#FFD700" stroke="#B8860B" stroke-width="1.5">
+                    <circle cx="12" cy="12" r="10"/>
+                    <text x="12" y="15" font-family="Verdana" font-size="10" fill="#FFFFFF" text-anchor="middle" font-weight="bold">★</text>
+                  </svg>
+                </span>
+              </div>
             </div>
-
-            <div id="question-area" class="question-area hidden">
-                <div id="question-text" class="question-text"></div>
-                <div class="options-grid" id="options-container">
-                    <!-- Answer options will be generated here by JS -->
-                </div>
-                <div id="feedback-message" class="feedback-message hidden"></div>
-            </div>
-            <!-- These buttons are now managed by modals -->
-            <button id="next-round-button" class="start-button hidden">Další kolo</button>
-            <button id="restart-game-button" class="restart-button hidden">Restartovat hru</button>
+            <div class="grid-container" id="card-grid"></div>
+          </div>
+          <div id="question-area" class="question-area hidden">
+            <div id="question-text" class="question-text"></div>
+            <div class="options-grid" id="options-container"></div>
+            <div id="feedback-message" class="feedback-message hidden"></div>
+          </div>
+          <button id="next-round-button" class="start-button hidden">Další kolo</button>
+          <button id="restart-game-button" class="restart-button hidden">Restartovat hru</button>
         </div>
+      </section>
     </div>
-
-    <!-- Custom Modal for Messages -->
-    <div id="message-modal-overlay" class="modal-overlay">
-        <div class="modal-content">
-            <h3 id="modal-title"></h3>
-            <div id="modal-content-body"></div> <!-- Dynamic content goes here -->
-            <div class="modal-buttons-container" id="modal-buttons-container">
-                <button id="modal-primary-button" class="modal-button"></button>
-                <button id="modal-secondary-button" class="modal-button secondary hidden"></button>
-            </div>
-        </div>
+  </div>
+  <!-- Modal overlay -->
+  <div id="message-modal-overlay" class="modal-overlay">
+    <div class="modal-content">
+      <h3 id="modal-title"></h3>
+      <div id="modal-content-body"></div>
+      <div class="modal-buttons-container" id="modal-buttons-container">
+        <button id="modal-primary-button" class="modal-button"></button>
+        <button id="modal-secondary-button" class="modal-button secondary hidden"></button>
+      </div>
     </div>
-
-    <script>
+  </div>
+  <script>
         // Otevře modal pro úpravu jména a ikony daného hráče
         function openEditPlayerModal(index) {
             const player = players[index];
@@ -531,7 +556,7 @@
                 ...baseChoices,
                 '🐱','🐶','🦊','🐼','🦁','🐸','🐧','🐨','🐯','🐵',
                 '⚽','🏀','🏈','🎸','🎧','🎲','📚','🧪','🗺️','🧭'
-            ])).slice(0, 24); // rozumný strop, ať se modal nepřeplní
+            ])).slice(0, 24);
         
             const contentHTML = `
                 <div class="text-left">
@@ -587,9 +612,7 @@
                 picker.addEventListener('click', (e) => {
                     const btn = e.target.closest('button[data-emoji]');
                     if (!btn) return;
-                    // zrušit předchozí výběr
                     picker.querySelectorAll('button.ring-2').forEach(b => b.classList.remove('ring-2','ring-blue-500'));
-                    // označit aktuální
                     btn.classList.add('ring-2','ring-blue-500');
                 });
             }
@@ -604,11 +627,10 @@
         }
 
         // Data for flashcards (question, correct answer, incorrect options, difficulty)
-        // This will now be populated from Google Sheets
         let flashcardsData = []; 
         
         let numPlayers = 1;
-        let TOTAL_CARDS_TO_ANSWER = 15; // This will be dynamic based on setup
+        let TOTAL_CARDS_TO_ANSWER = 15;
         const DEFAULT_CARDS_PER_PLAYER = {
             1: 15,
             2: 20,
@@ -619,12 +641,12 @@
 
         const FLASHCARD_SETS = {
             "1.rocnik_rany_vrcholny_stredovek": {
-                name: "Středověk až po reformaci", // Updated name
+                name: "Středověk až po reformaci",
                 url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQcFX-XElafI31HsHhWZ_e8xdCJREnUMvVkv3u0YG31yd7VAwhX2o8WnxKXrjZBkLhR3rreQaJtqVHO/pub?gid=1607867200&single=true&output=tsv"
             },
             "2.rocnik_rany_novovek_19_stoleti": {
-                name: "Raný novověk až po průmyslovou revoluci", // Updated name
-                url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTZkADdaKWqFzTm6EVGquT6ZIxKOFpPC4dmHzBMgaMP2-TZCE99Hhh2sX3aoGR7ohx3BF8VNGY8IrU6/pub?gid=997575850&single=true&output=tsv" // Corrected GID and output format
+                name: "Raný novověk až po průmyslovou revoluci",
+                url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTZkADdaKWqFzTm6EVGquT6ZIxKOFpPC4dmHzBMgaMP2-TZCE99Hhh2sX3aoGR7ohx3BF8VNGY8IrU6/pub?gid=997575850&single=true&output=tsv"
             },
             "3.rocnik_moderni_dejiny": {
                 name: "Všehochuť",
@@ -632,22 +654,20 @@
             }
         };
 
-        let currentFlashcardSetUrl = FLASHCARD_SETS["1.rocnik_rany_vrcholny_stredovek"].url; // Default set
+        let currentFlashcardSetUrl = FLASHCARD_SETS["1.rocnik_rany_vrcholny_stredovek"].url;
 
-        let players = []; // Array of player objects
-        let currentPlayerIndex = 0; // Index of the current player
-        let answeredCardsTotal = 0; // Total cards answered across all players in this game
+        let players = [];
+        let currentPlayerIndex = 0;
+        let answeredCardsTotal = 0;
 
-        let availableCards = []; // The 9 cards currently in the grid
-        let currentQuestion = null; // The currently selected card object from availableCards
-        let isQuestionActive = false; // Flag to disable card selection when a question is active
+        let availableCards = [];
+        let currentQuestion = null;
+        let isQuestionActive = false;
         
-        // Define player colors, names, and emojis
-        const PLAYER_COLORS = ['#34D399', '#60A5FA', '#A78BFA', '#FBBF24', '#FB7185']; // Tailwind colors: emerald-400, blue-400, violet-400, amber-400, rose-400
-        const PLAYER_NAMES = ['Adam', 'Petra', 'Max', 'Ema', 'Karel', 'Julie', 'Tomáš', 'Anna', 'Lukáš', 'Tereza']; // More gender-neutral names
+        const PLAYER_COLORS = ['#34D399', '#60A5FA', '#A78BFA', '#FBBF24', '#FB7185'];
+        const PLAYER_NAMES = ['Adam', 'Petra', 'Max', 'Ema', 'Karel', 'Julie', 'Tomáš', 'Anna', 'Lukáš', 'Tereza'];
         const PLAYER_EMOJIS = ['🚀', '🌟', '💡', '🌱', '🤖', '🎉', '🧠', '✨', '🏆', '🎯'];
 
-        // DOM elements - Declared globally, assigned in updateDomElementReferences
         let allPlayersScoreDisplay;
         let remainingCardsDisplay;
         let cardGrid;
@@ -674,90 +694,75 @@
         // --- TOOLTIP RELATED CODE START ---
         const tooltipElement = document.createElement('div');
         tooltipElement.id = 'card-tooltip';
-        // Tailwind classes for styling, plus custom styles for positioning and visibility
-        tooltipElement.classList.add('hidden', 'fixed', 'bg-gray-800', 'text-white', 'p-2', 'rounded-md', 'shadow-lg', 'text-sm', 'z-50', 'transition-opacity', 'duration-150'); /* Removed pointer-events-none */
-        tooltipElement.style.maxWidth = '300px'; // Limit tooltip width
-        tooltipElement.style.wordWrap = 'break-word'; // Allow long words to break
-        tooltipElement.style.opacity = '0'; // Start hidden for transition
+        tooltipElement.classList.add('hidden', 'fixed', 'bg-gray-800', 'text-white', 'p-2', 'rounded-md', 'shadow-lg', 'text-sm', 'z-50', 'transition-opacity', 'duration-150');
+        tooltipElement.style.maxWidth = '300px';
+        tooltipElement.style.wordWrap = 'break-word';
+        tooltipElement.style.opacity = '0';
         document.body.appendChild(tooltipElement);
 
-        let tooltipHideTimeout; // Variable to hold the timeout ID
+        let tooltipHideTimeout;
 
-        // Add mouseover and mouseout listeners to the tooltip itself
         tooltipElement.addEventListener('mouseover', () => {
-            clearTimeout(tooltipHideTimeout); // Clear any pending hide
+            clearTimeout(tooltipHideTimeout);
         });
         tooltipElement.addEventListener('mouseout', () => {
-            hideTooltipWithDelay(); // Hide with delay when leaving the tooltip
+            hideTooltipWithDelay();
         });
 
 
         function showTooltip(text, x, y) {
-            clearTimeout(tooltipHideTimeout); // Clear any pending hide on show
+            clearTimeout(tooltipHideTimeout);
             tooltipElement.textContent = text;
             tooltipElement.classList.remove('hidden');
-            // Force reflow to ensure transition starts from opacity 0
-            // This is a common trick to make CSS transitions work when changing display/visibility
-            tooltipElement.offsetWidth; 
+            tooltipElement.offsetWidth;
             tooltipElement.style.opacity = '1';
             positionTooltip(x, y);
         }
 
         function hideTooltip() {
             tooltipElement.style.opacity = '0';
-            // Use a small delay before hiding completely to allow transition to finish
             setTimeout(() => {
                 tooltipElement.classList.add('hidden');
-            }, 150); // Match transition duration
+            }, 150);
         }
 
         function hideTooltipWithDelay() {
-            clearTimeout(tooltipHideTimeout); // Clear any existing timeout before setting a new one
+            clearTimeout(tooltipHideTimeout);
             tooltipHideTimeout = setTimeout(() => {
                 hideTooltip();
-            }, 300); // Adjust delay as needed (e.g., 300ms)
+            }, 300);
         }
 
         function positionTooltip(mouseX, mouseY) {
-            const padding = 15; // Distance from cursor
+            const padding = 15;
             let finalX = mouseX + padding;
             let finalY = mouseY + padding;
 
-            // To get accurate width/height, temporarily make it visible but transparent/off-screen
             const originalOpacity = tooltipElement.style.opacity;
             const originalVisibility = tooltipElement.style.visibility;
             tooltipElement.style.opacity = '0';
             tooltipElement.style.visibility = 'visible';
-            tooltipElement.classList.remove('hidden'); // Ensure it's not display:none for measurement
+            tooltipElement.classList.remove('hidden');
 
             const tooltipWidth = tooltipElement.offsetWidth;
             const tooltipHeight = tooltipElement.offsetHeight;
 
-            // Restore original styles (or hide if it was hidden initially)
             tooltipElement.style.opacity = originalOpacity;
             tooltipElement.style.visibility = originalVisibility;
             if (originalOpacity === '0') {
                 tooltipElement.classList.add('hidden');
             }
 
-
-            // Adjust if it goes off the right edge of the viewport
-            if (finalX + tooltipWidth > window.innerWidth - 10) { // Small buffer from right edge
-                finalX = mouseX - tooltipWidth - padding; // Place to the left of the cursor
+            if (finalX + tooltipWidth > window.innerWidth - 10) {
+                finalX = mouseX - tooltipWidth - padding;
             }
-
-            // Adjust if it goes off the bottom edge of the viewport
-            if (finalY + tooltipHeight > window.innerHeight - 10) { // Small buffer from bottom edge
-                finalY = mouseY - tooltipHeight - padding; // Place above the cursor
+            if (finalY + tooltipHeight > window.innerHeight - 10) {
+                finalY = mouseY - tooltipHeight - padding;
             }
-
-            // Ensure it doesn't go off the left edge (can happen after right edge adjustment)
-            if (finalX < 10) { // Small margin from left edge
+            if (finalX < 10) {
                 finalX = 10;
             }
-
-            // Ensure it doesn't go off the top edge (can happen after bottom edge adjustment)
-            if (finalY < 10) { // Small margin from top edge
+            if (finalY < 10) {
                 finalY = 10;
             }
 
@@ -768,21 +773,18 @@
         function handleCardMouseOver(event) {
             const cardElement = event.currentTarget;
             const fullText = cardElement.dataset.fullQuestion;
-            // Assuming truncation occurs if length > 50 (from `questionSnippet` logic)
             if (fullText && fullText.length > 50) { 
                 showTooltip(fullText, event.clientX, event.clientY);
             }
         }
 
         function handleCardMouseMove(event) {
-            // Only reposition if the tooltip is currently visible (not hidden by CSS class)
             if (!tooltipElement.classList.contains('hidden')) {
                 positionTooltip(event.clientX, event.clientY);
             }
         }
 
         function handleCardMouseOut(event) {
-            // Initiate hide with a delay
             hideTooltipWithDelay();
         }
         // --- TOOLTIP RELATED CODE END ---
@@ -805,13 +807,11 @@
             flashcardSetSelect = document.getElementById('flashcard-set-select');
         }
 
-
         /**
          * Updates the default total cards input (slider) based on the selected number of players.
          * Also sets the max attribute of the slider.
          */
         function updateDefaultTotalCards() {
-            // Ensure elements exist before accessing them
             if (!numPlayersInput || !totalCardsInput || !totalCardsValueSpan || !numPlayersValueSpan || flashcardsData.length === 0) {
                 console.warn("Required setup elements or flashcards data not ready for updateDefaultTotalCards.");
                 return;
@@ -819,84 +819,66 @@
             
             const selectedPlayers = parseInt(numPlayersInput.value);
             let defaultValue = DEFAULT_CARDS_PER_PLAYER[selectedPlayers] || DEFAULT_CARDS_PER_PLAYER[1];
-            
-            // Ensure the default value does not exceed the total available unique flashcards
             defaultValue = Math.min(defaultValue, flashcardsData.length);
 
             totalCardsInput.value = defaultValue;
-            totalCardsInput.max = flashcardsData.length; // Set max attribute of the slider
-            totalCardsValueSpan.textContent = defaultValue; // Update the span next to the slider
-            numPlayersValueSpan.textContent = selectedPlayers; // Update the span for number of players
+            totalCardsInput.max = flashcardsData.length;
+            totalCardsValueSpan.textContent = defaultValue;
+            numPlayersValueSpan.textContent = selectedPlayers;
         }
 
         /**
          * Resets game parameters and state (players, scores, etc.) to initial values.
-         * This is called when starting a new game or changing flashcard sets.
-         * IMPORTANT: This function no longer resets currentFlashcardSetUrl or flashcardSetSelect.value.
-         * Those are handled by the loadFlashcards() call directly after a set change.
          */
         function resetGameParametersAndState() {
             numPlayers = 1; 
             currentPlayerIndex = 0;
             answeredCardsTotal = 0;
-            players = []; // Clear all player data
-            usedFlashcardOriginalIndices.clear(); // Clear all used card indices
-            availableCards = []; // Clear current grid cards
+            players = [];
+            usedFlashcardOriginalIndices.clear();
+            availableCards = [];
 
-            // Reset UI elements - Use null checks for safety
             if (gamePlayArea) gamePlayArea.classList.add('hidden'); 
             if (questionArea) questionArea.classList.add('hidden'); 
             if (cardGrid) cardGrid.innerHTML = ''; 
             if (feedbackMessage) feedbackMessage.classList.add('hidden'); 
             if (remainingCardsDisplay) remainingCardsDisplay.classList.add('hidden'); 
 
-            // Reset setup screen sliders and their displayed values
             const setupScreen = document.getElementById('game-setup-screen');
             if (setupScreen) {
-                setupScreen.classList.remove('hidden'); // Show setup screen
-                // Re-fetch references for elements within setup screen
-                updateDomElementReferences(); // Ensure all setup-related elements are current
-                
+                setupScreen.classList.remove('hidden');
+                updateDomElementReferences();
                 if (numPlayersInput) numPlayersInput.value = '1';
                 if (numPlayersValueSpan) numPlayersValueSpan.textContent = '1';
                 
-                // Set total cards based on default (1 player) after numPlayers is reset
                 TOTAL_CARDS_TO_ANSWER = DEFAULT_CARDS_PER_PLAYER[1];
                 if (totalCardsInput) totalCardsInput.value = TOTAL_CARDS_TO_ANSWER;
                 if (totalCardsValueSpan) totalCardsValueSpan.textContent = TOTAL_CARDS_TO_ANSWER;
-
-                // Do NOT touch flashcardSetSelect.value or currentFlashcardSetUrl here.
-                // It's assumed the calling function (e.g., loadFlashcards or change listener)
-                // has already set or will set the correct value.
             }
-            window.updateScoreDisplay(); // Update scoreboard (will show empty/reset scores)
+                        const mainLayout = document.getElementById('main-layout');
+            if (mainLayout) mainLayout.classList.add('centered');
+window.updateScoreDisplay();
         }
-
 
         /**
          * Initializes the game based on user setup (number of players, total cards).
          */
         function setupGame() {
-            // Get fresh references for setup elements before using them
-            updateDomElementReferences(); // Ensure all elements are current
+            updateDomElementReferences();
 
             numPlayers = parseInt(numPlayersInput.value);
             TOTAL_CARDS_TO_ANSWER = parseInt(totalCardsInput.value);
-            currentFlashcardSetUrl = flashcardSetSelect.value; // Ensure current URL is based on selection
+            currentFlashcardSetUrl = flashcardSetSelect.value;
 
-
-            // Ensure numPlayers is within bounds
             if (isNaN(numPlayers) || numPlayers < 1 || numPlayers > 5) {
                 numPlayers = 1; 
                 numPlayersInput.value = 1;
             }
-            // Ensure TOTAL_CARDS_TO_ANSWER is within bounds (1 and max available unique cards)
             if (isNaN(TOTAL_CARDS_TO_ANSWER) || TOTAL_CARDS_TO_ANSWER < 1 || TOTAL_CARDS_TO_ANSWER > flashcardsData.length) {
-                TOTAL_CARDS_TO_ANSWER = Math.min(DEFAULT_CARDS_PER_PLAYER[numPlayers], flashcardsData.length); 
+                TOTAL_CARDS_TO_ANSWER = Math.min(DEFAULT_CARDS_PER_PLAYER[numPlayers], flashcardsData.length);
                 totalCardsInput.value = TOTAL_CARDS_TO_ANSWER;
             }
 
-            // Initialize players with unique names, colors, and emojis
             players = [];
             const shuffledNames = shuffleArray([...PLAYER_NAMES]);
             const shuffledEmojis = shuffleArray([...PLAYER_EMOJIS]);
@@ -904,37 +886,31 @@
 
             for (let i = 0; i < numPlayers; i++) {
                 players.push({
-                    name: shuffledNames[i % shuffledNames.length], // Cycle through names if more players than names
+                    name: shuffledNames[i % shuffledNames.length],
                     score: 0,
                     correctAnswers: 0,
                     incorrectAnswers: 0,
                     incorrectAnswersHistory: [],
-                    color: shuffledColors[i % shuffledColors.length], // Assign a color
-                    emoji: shuffledEmojis[i % shuffledEmojis.length] // Assign an emoji
+                    color: shuffledColors[i % shuffledColors.length],
+                    emoji: shuffledEmojis[i % shuffledEmojis.length]
                 });
             }
 
             currentPlayerIndex = 0;
             answeredCardsTotal = 0;
-            // IMPORTANT: usedFlashcardOriginalIndices must be cleared at the START of a new game,
-            // and should NOT be reset mid-game if we run out of unique cards,
-            // to ensure no repeats *within one game session*.
             usedFlashcardOriginalIndices.clear(); 
 
             if (gameSetupScreen) gameSetupScreen.classList.add('hidden');
             if (gamePlayArea) gamePlayArea.classList.remove('hidden');
+            const mainLayout = document.getElementById('main-layout');
+            if (mainLayout) mainLayout.classList.remove('centered');
+
 
             initializeGameRound();
         }
 
         /**
          * Function to show a custom modal message
-         * @param {string} title - The title of the modal.
-         * @param {string} contentHTML - The HTML content for the modal body.
-         * @param {string} [primaryBtnText=null] - Text for the primary button.
-         * @param {function} [primaryBtnCallback=null] - Callback for the primary button.
-         * @param {string} [secondaryBtnText=null] - Text for the secondary button.
-         * @param {function} [secondaryBtnCallback=null] - Callback for the secondary button.
          */
         function showGameModal(title, contentHTML, primaryBtnText = null, primaryBtnCallback = null, secondaryBtnText = null, secondaryBtnCallback = null) {
             modalTitle.textContent = title;
@@ -974,15 +950,13 @@
                 const j = Math.floor(Math.random() * (i + 1));
                 [array[i], array[j]] = [array[j], array[i]];
             }
-            return array; // Return the shuffled array
+            return array;
         }
 
-        // Global set to track original flashcard indices that have been used across all rounds in this session
         let usedFlashcardOriginalIndices = new Set();
 
         /**
          * Gets the next available flashcard data, ensuring no repeats within the current game.
-         * Returns null if all unique cards have been used for this game.
          */
         function getNextAvailableFlashcardData() {
             const availableOriginalIndices = [];
@@ -993,36 +967,35 @@
             }
 
             if (availableOriginalIndices.length === 0) {
-                return null; // All unique cards have been used for this game session
+                return null;
             }
 
             const randomIndex = Math.floor(Math.random() * availableOriginalIndices.length);
             const originalIndex = availableOriginalIndices[randomIndex];
 
-            usedFlashcardOriginalIndices.add(originalIndex); // Mark as used for this game
+            usedFlashcardOriginalIndices.add(originalIndex);
             return { originalIndex: originalIndex, data: flashcardsData[originalIndex] };
         }
 
         /**
-         * Initializes a new round (or the first round) of the game.
-         * This means populating and rendering a new grid.
+         * Initializes a new round of the game.
          */
         function initializeGameRound() {
-            isQuestionActive = false; // Allow new card selection
-            // If it's the very first time populating or if all cards were answered, fill all 9 slots
+            isQuestionActive = false;
             if (availableCards.length === 0 || availableCards.every(card => card.originalIndex === -1)) {
-                populateInitialFullGrid(); // Populate the grid with 9 new cards
+                populateInitialFullGrid();
             }
-            window.updateScoreDisplay(); // Update current player's score and total remaining cards
-            if (remainingCardsDisplay) remainingCardsDisplay.classList.remove('hidden'); // Show remaining cards display when game starts
+            window.updateScoreDisplay();
+            if (remainingCardsDisplay) if (gamePlayArea && gamePlayArea.classList.contains('hidden')) {
+                    remainingCardsDisplay.classList.add('hidden');
+                } else {
+                    remainingCardsDisplay.classList.remove('hidden');
+                }
         }
 
         // Updates the score and remaining cards displayed on the screen.
-        // Explicitly defining on window object to ensure global accessibility
-        // ⬇️ NAHRAĎ tímto celý původní blok window.updateScoreDisplay = function() { ... }
         window.updateScoreDisplay = function() { 
-            // Vyčisti existující karty (zůstává jen "Zbývá: ...", který znovu připojíme níže)
-            if (allPlayersScoreDisplay) allPlayersScoreDisplay.innerHTML = ''; 
+            if (allPlayersScoreDisplay) allPlayersScoreDisplay.innerHTML = '';
         
             players.forEach((player, index) => {
                 const playerScoreCard = document.createElement('div');
@@ -1037,14 +1010,12 @@
                     <span class="player-score-points">${player.score} bodů</span>
                 `;
         
-                // ✅ Nové: umožní kliknutím upravit jméno/ikonu (bez změny vzhledu či logiky)
                 playerScoreCard.title = 'Kliknutím upravíte jméno a ikonu';
                 playerScoreCard.addEventListener('click', () => openEditPlayerModal(index));
         
                 if (allPlayersScoreDisplay) allPlayersScoreDisplay.appendChild(playerScoreCard);
             });
         
-            // Znovu připojit "Zbývá: ..." ukazatel
             if (allPlayersScoreDisplay && remainingCardsDisplay) {
                 allPlayersScoreDisplay.appendChild(remainingCardsDisplay);
             }
@@ -1052,14 +1023,16 @@
             const remaining = TOTAL_CARDS_TO_ANSWER - answeredCardsTotal;
             if (remainingCardsDisplay) {
                 remainingCardsDisplay.textContent = `Zbývá: ${Math.max(0, remaining)} kartiček`;
-                remainingCardsDisplay.classList.remove('hidden'); // Pro jistotu viditelné po startu hry
+                if (gamePlayArea && gamePlayArea.classList.contains('hidden')) {
+                    remainingCardsDisplay.classList.add('hidden');
+                } else {
+                    remainingCardsDisplay.classList.remove('hidden');
+                }
             }
         };
 
-
         /**
          * Populates the grid initially with 9 new unique cards.
-         * This function is only called at the very start of a new game.
          */
         function populateInitialFullGrid() {
             availableCards = [];
@@ -1067,71 +1040,63 @@
                 const newCard = getNextAvailableFlashcardData();
                 if (newCard && answeredCardsTotal < TOTAL_CARDS_TO_ANSWER) {
                     availableCards.push({
-                        uniqueGridId: i, // Initially assigned sequential uniqueGridIds
+                        uniqueGridId: i,
                         originalIndex: newCard.originalIndex,
                         data: newCard.data,
                         answered: false
                     });
                 } else {
-                    // Fill with placeholder if no more cards or game limit reached
                     availableCards.push({
                         uniqueGridId: i,
-                        originalIndex: -1, // Empty placeholder index
-                        data: { question: "", answer: "", options: [], difficulty: 0 }, // Empty placeholder data
-                        answered: true // Marked as answered so it's not clickable
+                        originalIndex: -1,
+                        data: { question: "", answer: "", options: [], difficulty: 0 },
+                        answered: true
                     });
                 }
             }
-            // IMPORTANT: Removed shuffleArray(availableCards) here to ensure initial sequential order
-            // as per the new "shift" requirement.
-
             renderCardGrid();
             if (questionArea) questionArea.classList.add('hidden');
             if (feedbackMessage) feedbackMessage.classList.add('hidden');
         }
 
-
-        // Renders the 3x3 card grid based on `availableCards`
+        // Renders the 3x3 card grid based on availableCards
         function renderCardGrid() {
-            if (cardGrid) cardGrid.innerHTML = ''; // Clear existing cards
-            for (let i = 0; i < 9; i++) { // Always render 9 slots for the 3x3 grid
+            if (cardGrid) cardGrid.innerHTML = '';
+            for (let i = 0; i < 9; i++) {
                 const card = availableCards[i];
                 const cardElement = document.createElement('div');
                 cardElement.classList.add('card', 'rounded-xl');
-                cardElement.dataset.uniqueGridId = card.uniqueGridId; // Use uniqueGridId for selection
+                cardElement.dataset.uniqueGridId = card.uniqueGridId;
 
-                // Add difficulty color class, but only if it's a real card (not an empty placeholder)
-                if (card.originalIndex !== -1) { // Check for real card
+                if (card.originalIndex !== -1) {
                     cardElement.classList.add(`difficulty-${card.data.difficulty}-color`);
                 }
 
-                // Determine difficulty display HTML (Bonus: + coins)
                 let difficultyDisplayHtml = '';
-                if (card.originalIndex !== -1 && card.data.difficulty > 1) { // Only show bonus for difficulty > 1
+                if (card.originalIndex !== -1 && card.data.difficulty > 1) {
                     difficultyDisplayHtml += 'Bonus: ';
-                    for (let k = 0; k < (card.data.difficulty - 1); k++) { // 1 coin for difficulty 2, 2 coins for difficulty 3
+                    for (let k = 0; k < (card.data.difficulty - 1); k++) {
                         difficultyDisplayHtml += getCoinSvgIcon();
                     }
                 }
 
-                if (card.answered || card.originalIndex === -1) { // If card is answered or is a placeholder
+                if (card.answered || card.originalIndex === -1) {
                     cardElement.classList.add('answered');
-                    if (card.originalIndex === -1) { // It's a blank slot/exhausted question
+                    if (card.originalIndex === -1) {
                         cardElement.innerHTML = `
                             <div class="flex-grow flex items-center justify-center text-center p-2 text-sm md:text-base"></div>
                             <div class="difficulty-indicator"></div>
-                        `; // Intentionally empty for blank slots
-                    } else { // It's an answered card that will soon be shifted out
+                        `;
+                    } else {
                         cardElement.innerHTML = `
                             <div class="flex-grow flex items-center justify-center text-center p-2 text-sm md:text-base">Zodpovězeno</div>
                             <div class="difficulty-indicator">${difficultyDisplayHtml}</div>
                         `;
                     }
-                    // Ensure tooltip listeners are removed for answered/placeholder cards
                     cardElement.removeEventListener('mouseover', handleCardMouseOver);
                     cardElement.removeEventListener('mousemove', handleCardMouseMove);
                     cardElement.removeEventListener('mouseout', handleCardMouseOut);
-                } else { // If card is not answered (clickable)
+                } else {
                     const fullQuestion = card.data.question;
                     const questionSnippet = fullQuestion.substring(0, 50) + (fullQuestion.length > 50 ? '...' : '');
                     
@@ -1139,20 +1104,17 @@
                         <div class="flex-grow flex items-center justify-center text-center p-2 text-sm md:text-base">${questionSnippet}</div>
                         <div class="difficulty-indicator">${difficultyDisplayHtml}</div>
                     `;
-                    // Store full text on dataset for easy access for tooltip
                     cardElement.dataset.fullQuestion = fullQuestion; 
 
                     if (!isQuestionActive) {
                         cardElement.addEventListener('click', handleCardClick);
                         cardElement.style.cursor = 'pointer'; 
 
-                        // Attach tooltip listeners only if text is truncated
-                        if (fullQuestion.length > 50) { // Check if truncation actually occurred
+                        if (fullQuestion.length > 50) {
                             cardElement.addEventListener('mouseover', handleCardMouseOver);
                             cardElement.addEventListener('mousemove', handleCardMouseMove);
                             cardElement.addEventListener('mouseout', handleCardMouseOut);
                         } else {
-                            // Ensure listeners are removed if text is not truncated
                             cardElement.removeEventListener('mouseover', handleCardMouseOver);
                             cardElement.removeEventListener('mousemove', handleCardMouseMove);
                             cardElement.removeEventListener('mouseout', handleCardMouseOut);
@@ -1160,7 +1122,6 @@
                     } else {
                         cardElement.removeEventListener('click', handleCardClick);
                         cardElement.style.cursor = 'not-allowed';
-                        // Always remove tooltip listeners if question is active (card not clickable)
                         cardElement.removeEventListener('mouseover', handleCardMouseOver);
                         cardElement.removeEventListener('mousemove', handleCardMouseMove);
                         cardElement.removeEventListener('mouseout', handleCardMouseOut);
@@ -1173,14 +1134,12 @@
         // Generates HTML content for the question and options to be used in the modal
         function getQuestionModalContent(qData) {
             let options = [...qData.options, qData.answer];
-            shuffleArray(options); // Randomize order of options
-
+            shuffleArray(options);
             let optionsHtml = options.map(option => `
                 <button class="option-button rounded-lg" data-answer="${option}">
                     ${option}
                 </button>
             `).join('');
-
             return `
                 <div id="modal-question-area">
                     <p class="question-text">${qData.question}</p>
@@ -1194,7 +1153,6 @@
 
         // Handles click on a card in the grid
         function handleCardClick(event) {
-            // Check if game should end before allowing card selection
             if (answeredCardsTotal >= TOTAL_CARDS_TO_ANSWER || usedFlashcardOriginalIndices.size === flashcardsData.length) {
                 showGameModal(
                     "Konec hry",
@@ -1205,7 +1163,7 @@
                 return;
             }
 
-            if (isQuestionActive) { // Prevent clicking another card while a question is active
+            if (isQuestionActive) {
                 return;
             }
 
@@ -1214,7 +1172,7 @@
 
             const card = availableCards.find(c => c.uniqueGridId === uniqueGridId);
 
-            if (card.answered || card.originalIndex === -1) { // Prevent clicking already answered or empty slots
+            if (card.answered || card.originalIndex === -1) {
                 return;
             }
 
@@ -1224,8 +1182,7 @@
             currentQuestion = card;
             isQuestionActive = true;
 
-            // Remove all click and tooltip listeners from all cards when a question is active
-            if (cardGrid) { // Safety check for cardGrid
+            if (cardGrid) {
                 Array.from(cardGrid.children).forEach(c => {
                     c.removeEventListener('click', handleCardClick);
                     c.style.cursor = 'not-allowed';
@@ -1234,7 +1191,7 @@
                     c.removeEventListener('mouseout', handleCardMouseOut);
                 });
             }
-            hideTooltip(); // Ensure tooltip is hidden if active when card is clicked
+            hideTooltip();
 
             const modalContent = getQuestionModalContent(card.data);
             
@@ -1301,15 +1258,14 @@
             }
 
             currentPlayer.score = Math.max(0, currentPlayer.score);
-            // scoreDisplay.textContent = currentPlayer.score; // This is now handled by updateScoreDisplay()
 
             answeredCardsTotal++;
-            window.updateScoreDisplay(); // Calling through window object
+            window.updateScoreDisplay();
 
             if (modalFeedbackMessage) modalFeedbackMessage.classList.remove('hidden');
 
             const modalOptionsContainer = event.target.closest('.options-grid');
-            if (modalOptionsContainer) { // Ensure container exists
+            if (modalOptionsContainer) {
                 Array.from(modalOptionsContainer.children).forEach(button => {
                     button.removeEventListener('click', handleAnswerClickInModal);
                     if (button.dataset.answer === correctAnswer) {
@@ -1321,22 +1277,18 @@
                 });
             }
             
-            // Mark the card as answered in the availableCards array *immediately* for visual feedback
             const answeredCard = availableCards.find(card => card.uniqueGridId === currentQuestion.uniqueGridId);
             if (answeredCard) {
                 answeredCard.answered = true;
-                // Visually update the card to show "Zodpovězeno"
                 const answeredCardElement = document.querySelector(`.card[data-unique-grid-id="${currentQuestion.uniqueGridId}"]`);
                 if (answeredCardElement) {
                     answeredCardElement.classList.add('answered');
                     answeredCardElement.classList.remove('selected');
-                    // Remove all listeners from the answered card element
                     answeredCardElement.removeEventListener('click', handleCardClick); 
                     answeredCardElement.removeEventListener('mouseover', handleCardMouseOver);
                     answeredCardElement.removeEventListener('mousemove', handleCardMouseMove);
                     answeredCardElement.removeEventListener('mouseout', handleCardMouseOut);
 
-                    // Re-render the difficulty indicator on answered card
                     let difficultyDisplayHtml = '';
                     if (answeredCard.originalIndex !== -1 && answeredCard.data.difficulty > 1) { 
                         difficultyDisplayHtml += 'Bonus: ';
@@ -1352,8 +1304,6 @@
                 }
             }
 
-
-            // Check for game end condition immediately after answering
             if (answeredCardsTotal >= TOTAL_CARDS_TO_ANSWER || usedFlashcardOriginalIndices.size === flashcardsData.length) {
                 if (messageModalOverlay) messageModalOverlay.classList.remove('visible'); 
                 showEndGameSummary();
@@ -1363,11 +1313,9 @@
                     modalPrimaryButton.textContent = "Další tah";
                     modalPrimaryButton.onclick = () => {
                         if (messageModalOverlay) messageModalOverlay.classList.remove('visible');
-                        nextPlayerTurn(); // This will trigger the actual shift/fill
+                        nextPlayerTurn();
                     };
                 }
-
-                // Add the new "Ukončit a vyhodnotit" button
                 if (modalSecondaryButton) {
                     modalSecondaryButton.classList.remove('hidden');
                     modalSecondaryButton.textContent = "Ukončit a vyhodnotit";
@@ -1383,75 +1331,59 @@
          * Switches to the next player and initiates the next round, handling the card shift.
          */
         function nextPlayerTurn() {
-            // Reset isQuestionActive FIRST to ensure cards are clickable for the next turn
             isQuestionActive = false; 
 
-            // Check if game should end before proceeding
             if (answeredCardsTotal >= TOTAL_CARDS_TO_ANSWER || usedFlashcardOriginalIndices.size === flashcardsData.length) {
-                showEndGameSummary(); // End game if limits reached
+                showEndGameSummary(); 
                 return;
             }
 
-            const answeredCardGridId = currentQuestion.uniqueGridId; // Index of the card that was just answered
+            const answeredCardGridId = currentQuestion.uniqueGridId; 
 
-            // 1. Remove the answered card from its position in the array.
             availableCards.splice(answeredCardGridId, 1);
 
-            // 2. Get a new card to add to the array (which will appear top-left).
             const newCardData = getNextAvailableFlashcardData();
 
             let newCardObject;
             if (answeredCardsTotal < TOTAL_CARDS_TO_ANSWER && newCardData) {
                 newCardObject = {
-                    uniqueGridId: -1, // Will be reassigned shortly
+                    uniqueGridId: -1,
                     originalIndex: newCardData.originalIndex,
                     data: newCardData.data,
                     answered: false
                 };
             } else {
-                // If game limit reached or no more unique cards, add a placeholder
                 newCardObject = {
-                    uniqueGridId: -1, // Will be reassigned shortly
-                    originalIndex: -1, // Indicates a blank/exhausted slot
+                    uniqueGridId: -1,
+                    originalIndex: -1,
                     data: { question: "", answer: "", options: [], difficulty: 0 },
-                    answered: true // Treat as answered/unavailable (not clickable)
+                    answered: true
                 };
             }
 
-            // 3. Add the new card to the BEGINNING of the array using unshift.
-            // This pushes all existing elements one position to the right (higher index).
             availableCards.unshift(newCardObject);
 
-            // 4. Ensure the array size is exactly 9. Since we removed one and added one, it should be 9.
-            // If the array ends up with more than 9 elements (e.g., due to an case or previous error),
-            // remove the last one to maintain the 3x3 grid size.
             if (availableCards.length > 9) {
-                 availableCards.pop(); // Remove the last element
+                 availableCards.pop();
             }
 
-
-            // 5. Reassign uniqueGridIds for all 9 cards based on their new positions in the array.
             availableCards.forEach((card, index) => {
                 card.uniqueGridId = index;
             });
 
             currentPlayerIndex = (currentPlayerIndex + 1) % numPlayers;
-            window.updateScoreDisplay(); // Update display for new player and remaining cards
-            renderCardGrid(); // Re-render the grid with shifted cards
-            // isQuestionActive is already set to false at the beginning of this function.
+            window.updateScoreDisplay();
+            renderCardGrid();
         }
 
         /**
          * Returns the game to the setup screen, resetting inputs.
          */
         function returnToSetupScreen() {
-            // First, get the currently selected URL, so we can re-select it after reset
-            updateDomElementReferences(); // Ensure flashcardSetSelect is available
+            updateDomElementReferences();
             const selectedUrlBeforeReset = flashcardSetSelect ? flashcardSetSelect.value : currentFlashcardSetUrl;
 
             resetGameParametersAndState();
-            // Load flashcards for the currently selected set AFTER reset
-            // This will also ensure the dropdown visually matches currentFlashcardSetUrl
             loadFlashcards(selectedUrlBeforeReset);
         }
 
@@ -1469,7 +1401,6 @@
                 </div>
             `;
 
-            // Add buttons for each player to view their incorrect answers
             let playerDetailsButtons = players.map((player, index) => `
                 <button class="modal-button secondary mt-2 mr-2" onclick="window.showPlayerIncorrectAnswers(${index})">
                     Chybné odpovědi ${player.name}
@@ -1480,19 +1411,16 @@
                 "Hra dokončena!",
                 summaryContent + `<div class="modal-buttons-container flex-col">${playerDetailsButtons}</div>`,
                 "Hrát znovu",
-                returnToSetupScreen // Changed to return to setup screen
+                returnToSetupScreen
             );
 
-            // Hide all game play elements
             if (questionArea) questionArea.classList.add('hidden');
-            if (cardGrid) cardGrid.innerHTML = ''; // Clear grid
+            if (cardGrid) cardGrid.innerHTML = '';
         }
 
         /**
          * Displays the incorrect answers modal for a specific player.
-         * @param {number} playerIndex - The index of the player whose incorrect answers to show.
          */
-        // Explicitly defining on window object to ensure global accessibility
         window.showPlayerIncorrectAnswers = function(playerIndex) { 
             const player = players[playerIndex];
             let incorrectListHTML = '';
@@ -1512,21 +1440,18 @@
                 `Špatné odpovědi - ${player.name}`,
                 incorrectListHTML,
                 "Hrát znovu",
-                returnToSetupScreen, // Changed to return to setup screen
+                returnToSetupScreen,
                 "Zpět na souhrn",
-                showEndGameSummary // Go back to summary
+                showEndGameSummary
             );
         }
 
         /**
          * Loads flashcards data from the specified Google Sheet TSV URL.
-         * @param {string} [urlToLoad=currentFlashcardSetUrl] - The URL of the Google Sheet to load.
          */
         async function loadFlashcards(urlToLoad = currentFlashcardSetUrl) {
-            // Get initial setup screen reference
-            updateDomElementReferences(); // Ensure gameSetupScreen is up-to-date
+            updateDomElementReferences();
 
-            // Show loading indicator
             if (gameSetupScreen) {
                 gameSetupScreen.innerHTML = `
                     <h2 class="text-2xl font-bold text-gray-800 mb-4">Načítání kartiček...</h2>
@@ -1534,25 +1459,19 @@
                 `;
             }
             
-
             try {
                 const response = await fetch(urlToLoad);
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
                 const tsvData = await response.text();
-                console.log("Raw TSV data:", tsvData); // Log raw data for debugging
 
                 const lines = tsvData.split('\n').filter(line => line.trim() !== '');
-                console.log("TSV lines:", lines); // Log split lines
-
                 if (lines.length <= 1) {
                     throw new Error('No flashcard data found in the spreadsheet or invalid format.');
                 }
 
-                // Make headers case-insensitive and trim spaces for more robust matching
                 const headers = lines[0].split('\t').map(h => h.trim().toLowerCase());
-                console.log("Parsed Headers:", headers); // Log parsed headers
 
                 const dataRows = lines.slice(1);
 
@@ -1560,39 +1479,33 @@
                     const values = row.split('\t').map(v => v.trim());
                     const card = {};
                     
-                    // Map headers to card properties
                     headers.forEach((header, index) => {
                         const value = values[index];
-                        if (header === "question") { // Case-insensitive header match
+                        if (header === "question") {
                             card.question = value;
-                        } else if (header === "correct answer") { // Case-insensitive header match
+                        } else if (header === "correct answer") {
                             card.answer = value;
-                        } else if (header.startsWith("option")) { // Case-insensitive header match for options
+                        } else if (header.startsWith("option")) {
                             if (!card.options) card.options = [];
                             if (value) card.options.push(value);
-                        } else if (header === "difficulty") { // Case-insensitive header match
-                            card.difficulty = parseInt(value) || 1; // Default to 1 if parsing fails
+                        } else if (header === "difficulty") {
+                            card.difficulty = parseInt(value) || 1;
                         }
                     });
                     
-                    // Ensure options array exists even if no options were found (e.g., only correct answer)
                     if (!card.options) card.options = [];
 
-                    // Filter out cards that don't have a question or answer
                     if (!card.question || !card.answer) {
                         console.warn("Skipping malformed flashcard row (missing question or answer):", row, "Parsed card:", card);
                         return null;
                     }
-                    console.log("Parsed Card:", card); // Log each parsed card
                     return card;
-                }).filter(card => card !== null); // Filter out nulls from malformed cards
+                }).filter(card => card !== null);
 
                 if (flashcardsData.length === 0) {
                     throw new Error('Parsed flashcard data is empty. Check spreadsheet format. (No valid cards found)');
                 }
-                console.log("Final flashcardsData:", flashcardsData); // Log the final data array
 
-                // Restore initial setup screen content and re-enable button
                 if (gameSetupScreen) {
                     gameSetupScreen.innerHTML = `
                         <h2 class="text-2xl font-bold text-gray-800 mb-4">Nastavení hry</h2>
@@ -1609,7 +1522,6 @@
                         <div class="mb-6">
                             <label for="flashcard-set-select" class="block text-gray-700 text-sm font-bold mb-2">Vybrat sadu kartiček:</label>
                             <select id="flashcard-set-select" class="w-full p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                <!-- Options will be populated by JS -->
                             </select>
                         </div>
                         <p class="text-md text-gray-600 mb-8" id="game-instructions">Základní bodování: +1 za správnou, -1 za špatnou. Bonusy za řádek a obtížnost se přičítají/odečítají k tomu.</p>
@@ -1617,44 +1529,36 @@
                     `;
                 }
                 
-                // Re-attach event listeners after innerHTML replacement, as they are lost
-                updateDomElementReferences(); // Re-fetch all references after innerHTML update
+                updateDomElementReferences();
 
-                // Populate flashcard set select options
                 if (flashcardSetSelect) {
-                    // Clear existing options first to prevent duplicates
-                    flashcardSetSelect.innerHTML = ''; 
+                    flashcardSetSelect.innerHTML = '';
                     for (const key in FLASHCARD_SETS) {
                         const option = document.createElement('option');
-                        option.value = FLASHCARD_SETS[key].url; // Store URL as value
+                        option.value = FLASHCARD_SETS[key].url;
                         option.textContent = FLASHCARD_SETS[key].name;
                         flashcardSetSelect.appendChild(option);
                     }
-                    // Set the selected value to the one that was just loaded
                     flashcardSetSelect.value = urlToLoad;
                 }
 
                 if (setupGameButton) setupGameButton.addEventListener('click', setupGame);
-                if (numPlayersInput) numPlayersInput.addEventListener('input', (event) => { // Changed from 'change' to 'input' for live update
+                if (numPlayersInput) numPlayersInput.addEventListener('input', (event) => { 
                     if (numPlayersValueSpan) numPlayersValueSpan.textContent = event.target.value;
-                    updateDefaultTotalCards(); // Call to update total cards based on new player count
+                    updateDefaultTotalCards(); 
                 });
                 if (totalCardsInput) totalCardsInput.addEventListener('input', (event) => {
                     if (totalCardsValueSpan) totalCardsValueSpan.textContent = event.target.value;
                 });
-                // Add event listener for flashcard set change
                 if (flashcardSetSelect) {
-                    flashcardSetSelect.removeEventListener('change', handleFlashcardSetChange); // Prevent duplicate listeners
+                    flashcardSetSelect.removeEventListener('change', handleFlashcardSetChange);
                     flashcardSetSelect.addEventListener('change', handleFlashcardSetChange);
                 }
 
-                if (setupGameButton) setupGameButton.disabled = false; // Re-enable the button
-                updateDefaultTotalCards(); // Call this once to initialize the slider value and max
-                console.log("Flashcards loaded successfully and setup screen initialized.");
-
+                if (setupGameButton) setupGameButton.disabled = false;
+                updateDefaultTotalCards();
             } catch (error) {
                 console.error('Failed to load flashcards:', error);
-                // Find the name of the set that failed to load
                 let failedSetName = "Neznámá sada";
                 for (const key in FLASHCARD_SETS) {
                     if (FLASHCARD_SETS[key].url === urlToLoad) {
@@ -1681,32 +1585,26 @@
                     errorMessageHTML,
                     "Zkusit znovu",
                     () => {
-                        // Attempt to load the *previous* or default set, not the one that just failed
-                        // To avoid infinite loop if the selected URL is consistently bad
                         const defaultSetKey = Object.keys(FLASHCARD_SETS)[0];
-                        currentFlashcardSetUrl = FLASHCARD_SETS[defaultSetKey].url; // Revert to default
+                        currentFlashcardSetUrl = FLASHCARD_SETS[defaultSetKey].url; 
                         resetGameParametersAndState(); 
                         loadFlashcards(currentFlashcardSetUrl); 
                     }
                 );
-                // If a button exists from a previous render, try to disable it.
                 if (setupGameButton) setupGameButton.disabled = true; 
             }
         }
 
-        // New handler for flashcard set change
+        // Handler for flashcard set change
         function handleFlashcardSetChange(event) {
             currentFlashcardSetUrl = event.target.value;
-            resetGameParametersAndState(); // Reset game state and parameters (but not currentFlashcardSetUrl)
-            loadFlashcards(currentFlashcardSetUrl); // Load new flashcards
+            resetGameParametersAndState();
+            loadFlashcards(currentFlashcardSetUrl);
         }
 
-        // Call loadFlashcards on window load to start fetching data immediately
         window.onload = async () => {
-            // Initial call to ensure all DOM element references are set up.
             updateDomElementReferences(); 
 
-            // Set up initial options for the dropdown and select the default one
             if (flashcardSetSelect) {
                 for (const key in FLASHCARD_SETS) {
                     const option = document.createElement('option');
@@ -1714,10 +1612,9 @@
                     option.textContent = FLASHCARD_SETS[key].name;
                     flashcardSetSelect.appendChild(option);
                 }
-                flashcardSetSelect.value = currentFlashcardSetUrl; // Set default selection
+                flashcardSetSelect.value = currentFlashcardSetUrl;
             }
 
-            // Attach event listeners for setup screen elements
             if (setupGameButton) setupGameButton.addEventListener('click', setupGame);
             if (numPlayersInput) numPlayersInput.addEventListener('input', (event) => {
                 if (numPlayersValueSpan) numPlayersValueSpan.textContent = event.target.value;
@@ -1730,9 +1627,8 @@
                 flashcardSetSelect.addEventListener('change', handleFlashcardSetChange);
             }
 
-            // Now load the initial set
             await loadFlashcards(currentFlashcardSetUrl); 
         };
-    </script>
+  </script>
 </body>
 </html>
