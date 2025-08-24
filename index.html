@@ -521,18 +521,39 @@
         function openEditPlayerModal(index) {
             const player = players[index];
         
+            // Vezmeme tvoji existující sadu, případně doplníme o pár obecných
+            const baseChoices = (typeof PLAYER_EMOJIS !== 'undefined' && Array.isArray(PLAYER_EMOJIS) && PLAYER_EMOJIS.length)
+                ? PLAYER_EMOJIS
+                : ['🚀','🌟','💡','🌱','🤖','🎉','🧠','✨','🏆','🎯'];
+        
+            // Unikátní seznam + pár „klasik“ navíc (duplicit se zbavíme pomocí Set)
+            const emojiChoices = Array.from(new Set([
+                ...baseChoices,
+                '🐱','🐶','🦊','🐼','🦁','🐸','🐧','🐨','🐯','🐵',
+                '⚽','🏀','🏈','🎸','🎧','🎲','📚','🧪','🗺️','🧭'
+            ])).slice(0, 24); // rozumný strop, ať se modal nepřeplní
+        
             const contentHTML = `
                 <div class="text-left">
                     <label class="block text-sm font-medium text-gray-700 mb-1">Jméno hráče</label>
                     <input id="edit-player-name" type="text" value="${player.name}"
                            class="w-full p-2 border border-gray-300 rounded mb-4" />
         
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Ikona (emoji)</label>
-                    <input id="edit-player-emoji" type="text" value="${player.emoji}"
-                           class="w-full p-2 border border-gray-300 rounded"
-                           maxlength="4" />
-                    <p class="text-xs text-gray-500 mt-2">
-                        Tip: zadej libovolné emoji (např. 🚀, 🌟). Pokud necháš prázdné, zůstane původní.
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Vyberte ikonu</label>
+                    <div id="emoji-picker" class="grid grid-cols-6 gap-2">
+                        ${emojiChoices.map(e => `
+                            <button type="button"
+                                class="border rounded px-2 py-1 text-xl hover:bg-gray-100 transition
+                                       ${e === player.emoji ? 'ring-2 ring-blue-500' : ''}"
+                                data-emoji="${e}"
+                                aria-label="Zvolit ${e}">
+                                ${e}
+                            </button>
+                        `).join('')}
+                    </div>
+        
+                    <p class="text-xs text-gray-500 mt-3">
+                        Kliknutím vyberte ikonu. Jméno můžete napsat libovolně.
                     </p>
                 </div>
             `;
@@ -543,25 +564,35 @@
                 "Uložit",
                 () => {
                     const nameInput = document.getElementById('edit-player-name');
-                    const emojiInput = document.getElementById('edit-player-emoji');
-        
+                    const chosen = document.querySelector('#emoji-picker button.ring-2');
                     const newName = (nameInput?.value ?? "").trim();
-                    const newEmoji = (emojiInput?.value ?? "").trim();
+                    const newEmoji = chosen?.dataset.emoji;
         
                     if (newName.length > 0) {
                         player.name = newName;
                     }
-                    if (newEmoji.length > 0) {
-                        // Necháme libovolné emoji/znak(y); hra to nijak nerozbije.
+                    if (newEmoji) {
                         player.emoji = newEmoji;
                     }
         
-                    // Aktualizuj zobrazení skóre (karty hráčů se překreslí s novými údaji)
                     window.updateScoreDisplay();
                 },
                 "Zrušit",
-                () => {} // Zavřít bez změn
+                () => {}
             );
+        
+            // Napojíme výběr emoji (vyhraje vždy poslední klik)
+            const picker = document.getElementById('emoji-picker');
+            if (picker) {
+                picker.addEventListener('click', (e) => {
+                    const btn = e.target.closest('button[data-emoji]');
+                    if (!btn) return;
+                    // zrušit předchozí výběr
+                    picker.querySelectorAll('button.ring-2').forEach(b => b.classList.remove('ring-2','ring-blue-500'));
+                    // označit aktuální
+                    btn.classList.add('ring-2','ring-blue-500');
+                });
+            }
         }
 
         // Function to generate coin SVG
