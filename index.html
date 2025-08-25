@@ -29,7 +29,9 @@
             display: flex;
             flex-direction: column;
             gap: 20px;
-            margin-top: 50px;
+            /* Reduce vertical whitespace and use equal margins on top and bottom of the container */
+            margin-top: 20px;
+            margin-bottom: 20px;
         }
         /* New wrapper for row bonus indicators and card grid */
         .grid-layout-wrapper {
@@ -353,38 +355,49 @@
         /* Responsive adjustments */
         @media (max-width: 768px) {
             .grid-layout-wrapper {
+                /* Keep cards and bonuses stacked vertically on small screens, but
+                 * maintain the same top padding as on desktop so the row labels
+                 * align correctly with the first row of cards. */
                 flex-direction: column;
                 align-items: center;
-                padding-top: 10px;
+                padding-top: 20px;
             }
             .row-bonus-indicators {
-                position: static;
-                width: 100%;
-                flex-direction: row;
-                justify-content: center;
-                border-right: none;
-                border-bottom: 2px solid #cbd5e0;
-                padding-right: 0;
-                padding-bottom: 10px;
-                align-self: auto;
-                min-height: auto;
-                height: auto;
+                /* Maintain the vertical bonus bar on the left on small screens. */
+                position: absolute;
+                width: 30px;
+                flex-direction: column;
+                justify-content: space-around;
+                border-right: 2px solid #cbd5e0;
+                border-bottom: none;
+                padding-right: 5px;
+                padding-bottom: 0;
+                align-self: stretch;
+                left: 0;
+                top: 20px;
+                bottom: 0;
             }
             .row-bonus-indicator-item {
+                /* Do not center the labels horizontally; keep them evenly spaced */
                 border-right: none;
                 justify-content: center;
-                padding: 5px;
-                min-height: auto;
-                flex-grow: 0;
+                padding: 0;
+                min-height: 0;
+                flex-grow: 1;
             }
             .row-bonus-indicator-item span {
-                position: static;
-                transform: none;
-                white-space: normal;
+                /* Maintain the rotated vertical label even on small screens */
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%) rotate(-90deg);
+                transform-origin: center center;
+                white-space: nowrap;
             }
             .grid-container {
-                margin-top: 10px;
-                margin-left: 0;
+                /* Leave space for the bonus column on the left */
+                margin-top: 0;
+                margin-left: 50px;
             }
             .card {
                 font-size: 0.9rem;
@@ -404,13 +417,17 @@
         }
         /* Two-column layout for desktop */
         .game-container { max-width: 1200px; }
-        .main-layout { display: flex; gap: 24px; align-items: flex-start; }
+        .main-layout { display: flex; gap: 24px; align-items: stretch; }
         .sidebar {
             width: 260px;
             flex-shrink: 0;
-            position: sticky;
-            top: 20px;
-            align-self: stretch;
+            /* Use CSS grid to arrange the scoreboard and control buttons.  The first row
+               (1fr) takes up available space so the scoreboard stretches from the top,
+               and the second row (auto) houses the controls at the bottom. */
+            display: grid;
+            grid-template-rows: 1fr auto;
+            /* Align the sidebar with the top of the grid using the same top margin. */
+            margin-top: 20px;
         }
         .content { flex: 1; min-width: 0; }
         /* Scoreboard styling in side column */
@@ -426,7 +443,14 @@
         /* Responsive: revert to top layout on tablets/mobile */
         @media (max-width: 1024px) {
             .main-layout { flex-direction: column; }
-            .sidebar { position: static; width: 100%; }
+            /* On smaller screens, revert the sidebar back to a vertical flexbox so that
+               controls stack below the scoreboard. */
+            .sidebar {
+                position: static;
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+            }
             .score-display--side {
                 flex-direction: row;
                 flex-wrap: wrap;
@@ -447,6 +471,36 @@
             display: none;
         }
 
+        /* End Game button customization */
+        /* Style for the sidebar control buttons container */
+        #sidebar-controls {
+            margin-top: 12px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 12px;
+            width: 100%;
+        }
+        #end-game-button {
+            font-size: 0.9rem;
+            padding: 8px 12px;
+            white-space: nowrap;
+            /* Remove the shadow in the default state so the button lays flat. The
+               shadow will appear only on hover via a separate rule. */
+            box-shadow: none;
+        }
+
+        /* Add a shadow only when hovering over the end-game button */
+        #end-game-button:hover {
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        /* Expand the end game button to fill the row */
+        .sidebar #sidebar-controls #end-game-button {
+            flex: 1 1 auto;
+            width: auto;
+        }
+
     </style>
 </head>
 <body>
@@ -454,9 +508,13 @@
     <div class="text-4xl font-extrabold text-blue-800 mb-6"></div>
     <div id="main-layout" class="main-layout centered">
       <!-- Sidebar: scoreboard -->
-      <aside class="sidebar">
+      <aside class="sidebar" id="sidebar">
         <div id="all-players-score-display" class="score-display score-display--side">
           <span class="remaining-cards-display hidden" id="remaining-cards-display">Zbývá: -- kartiček</span>
+        </div>
+        <!-- Controls: help and end buttons. Shown during gameplay. -->
+        <div id="sidebar-controls" class="hidden">
+          <button id="end-game-button" class="restart-button">Ukončit a vyhodnotit</button>
         </div>
       </aside>
       <!-- Content: setup and game -->
@@ -683,6 +741,10 @@
         let numPlayersValueSpan;
         let flashcardSetSelect;
 
+        // Sidebar control buttons
+        let endGameButton;
+        let sidebarButtons;
+
         // Modal elements
         const messageModalOverlay = document.getElementById('message-modal-overlay');
         const modalTitle = document.getElementById('modal-title');
@@ -805,6 +867,10 @@
             totalCardsValueSpan = document.getElementById('total-cards-value');
             numPlayersValueSpan = document.getElementById('num-players-value');
             flashcardSetSelect = document.getElementById('flashcard-set-select');
+
+            // Element for the end-game button in the sidebar and its container
+            endGameButton = document.getElementById('end-game-button');
+            sidebarButtons = document.getElementById('sidebar-controls');
         }
 
         /**
@@ -843,6 +909,11 @@
             if (cardGrid) cardGrid.innerHTML = ''; 
             if (feedbackMessage) feedbackMessage.classList.add('hidden'); 
             if (remainingCardsDisplay) remainingCardsDisplay.classList.add('hidden'); 
+
+            // Hide the help/end buttons when returning to setup
+            if (sidebarButtons) {
+                sidebarButtons.classList.add('hidden');
+            }
 
             const setupScreen = document.getElementById('game-setup-screen');
             if (setupScreen) {
@@ -902,6 +973,11 @@ window.updateScoreDisplay();
 
             if (gameSetupScreen) gameSetupScreen.classList.add('hidden');
             if (gamePlayArea) gamePlayArea.classList.remove('hidden');
+
+            // Show the help/end buttons when the game starts
+            if (sidebarButtons) {
+                sidebarButtons.classList.remove('hidden');
+            }
             const mainLayout = document.getElementById('main-layout');
             if (mainLayout) mainLayout.classList.remove('centered');
 
@@ -943,6 +1019,59 @@ window.updateScoreDisplay();
             }
             if (messageModalOverlay) messageModalOverlay.classList.add('visible');
         }
+
+        /**
+         * Displays a modal explaining the game rules: how cards move and how scoring works.
+         * Uses showGameModal internally with a close button only.
+         */
+        function showHelpModal() {
+            const helpContent = `
+                <div class="text-left">
+                    <p class="mb-2"><strong>Pohyb kartiček:</strong></p>
+                    <p class="mb-4">Když odpovíte na otázku, tato kartička a kartička v pravém dolním rohu se z herní mřížky odstraní. Ostatní kartičky se posunou po řádcích doleva a dolů. V levém horním rohu se přidají dvě nové kartičky.</p>
+                    <p class="mb-2"><strong>Bodování:</strong></p>
+                    <p>Za správnou odpověď získáte +1 bod, za špatnou -1 bod. Bonusové body se přičítají podle obtížnosti otázky (0–2 body podle barvy kartičky) a podle řádku, ve kterém se kartička nachází (řádek 1: 0 bodů, řádek 2: +1 bod, řádek 3: +2 body).</p>
+                    <!-- Inline SVG diagram illustrating the card movement logic -->
+                    <div style="display:flex;justify-content:center;margin-top:1rem;">
+                        <svg width="180" height="180" viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <!-- Arrowhead for the end of the path -->
+                                <marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto" markerUnits="strokeWidth">
+                                    <path d="M0,0 L6,3 L0,6 Z" fill="#4c51bf"></path>
+                                </marker>
+                                <!-- Arrowheads for the intermediate points along the path -->
+                                <marker id="arrow-mid" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto" markerUnits="strokeWidth">
+                                    <path d="M0,0 L6,3 L0,6 Z" fill="#4c51bf"></path>
+                                </marker>
+                            </defs>
+                            <!-- grid squares -->
+                            <rect x="10" y="10" width="40" height="40" fill="#f5f5f5" stroke="#4a5568"></rect>
+                            <rect x="65" y="10" width="40" height="40" fill="#f5f5f5" stroke="#4a5568"></rect>
+                            <rect x="120" y="10" width="40" height="40" fill="#f5f5f5" stroke="#4a5568"></rect>
+                            <rect x="10" y="65" width="40" height="40" fill="#f5f5f5" stroke="#4a5568"></rect>
+                            <rect x="65" y="65" width="40" height="40" fill="#f5f5f5" stroke="#4a5568"></rect>
+                            <rect x="120" y="65" width="40" height="40" fill="#f5f5f5" stroke="#4a5568"></rect>
+                            <rect x="10" y="120" width="40" height="40" fill="#f5f5f5" stroke="#4a5568"></rect>
+                            <rect x="65" y="120" width="40" height="40" fill="#f5f5f5" stroke="#4a5568"></rect>
+                            <rect x="120" y="120" width="40" height="40" fill="#f5f5f5" stroke="#4a5568"></rect>
+                            <!-- Polyline illustrating the snake-like movement.  The marker-mid creates
+                                 arrowheads at each bend, while marker-end adds an arrowhead at the
+                                 final point.  Points correspond to the centers of the grid cells.
+                                 Sequence: (top-left) → (top-mid) → (top-right) → (mid-right) →
+                                 (mid-mid) → (mid-left) → (bot-left) → (bot-mid) → (bot-right). -->
+                            <polyline points="30,30 85,30 140,30 140,85 85,85 30,85 30,140 85,140 140,140"
+                                      fill="none" stroke="#4c51bf" stroke-width="2"
+                                      marker-mid="url(#arrow-mid)" marker-end="url(#arrow)"></polyline>
+                            <!-- Cross marking the removal of the bottom-right card from the grid. -->
+                            <line x1="130" y1="130" x2="150" y2="150" stroke="#E53E3E" stroke-width="3"></line>
+                            <line x1="150" y1="130" x2="130" y2="150" stroke="#E53E3E" stroke-width="3"></line>
+                        </svg>
+                    </div>
+                </div>
+            `;
+            showGameModal("Jak se hraje?", helpContent, "Zavřít", () => {});
+        }
+
 
         // Utility function to shuffle an array
         function shuffleArray(array) {
@@ -1316,13 +1445,9 @@ window.updateScoreDisplay();
                         nextPlayerTurn();
                     };
                 }
+                // Hide the secondary button during normal play. The end game button is now on the board itself.
                 if (modalSecondaryButton) {
-                    modalSecondaryButton.classList.remove('hidden');
-                    modalSecondaryButton.textContent = "Ukončit a vyhodnotit";
-                    modalSecondaryButton.onclick = () => {
-                        if (messageModalOverlay) messageModalOverlay.classList.remove('visible');
-                        showEndGameSummary();
-                    };
+                    modalSecondaryButton.classList.add('hidden');
                 }
             }
         }
@@ -1338,35 +1463,50 @@ window.updateScoreDisplay();
                 return;
             }
 
-            const answeredCardGridId = currentQuestion.uniqueGridId; 
+            const answeredCardGridId = currentQuestion.uniqueGridId;
 
+            // Remove the answered card from its position
             availableCards.splice(answeredCardGridId, 1);
 
-            const newCardData = getNextAvailableFlashcardData();
-
-            let newCardObject;
-            if (answeredCardsTotal < TOTAL_CARDS_TO_ANSWER && newCardData) {
-                newCardObject = {
-                    uniqueGridId: -1,
-                    originalIndex: newCardData.originalIndex,
-                    data: newCardData.data,
-                    answered: false
-                };
-            } else {
-                newCardObject = {
-                    uniqueGridId: -1,
-                    originalIndex: -1,
-                    data: { question: "", answer: "", options: [], difficulty: 0 },
-                    answered: true
-                };
+            // Additionally remove the last card in the grid (bottom‑right slot)
+            // This implements the new behaviour: each round the bottom‑right card
+            // is discarded along with the answered card.
+            if (availableCards.length > 0) {
+                availableCards.pop();
             }
 
-            availableCards.unshift(newCardObject);
+            // We need to add two new cards at the beginning of the array.
+            // One to replace the answered card, and a second for the removed last card.
+            // We insert them in reverse order so that the first unshift call ends up at index 0.
+            for (let i = 0; i < 2; i++) {
+                const newCardData = getNextAvailableFlashcardData();
+                let newCardObject;
+                if (answeredCardsTotal < TOTAL_CARDS_TO_ANSWER && newCardData) {
+                    newCardObject = {
+                        uniqueGridId: -1,
+                        originalIndex: newCardData.originalIndex,
+                        data: newCardData.data,
+                        answered: false
+                    };
+                } else {
+                    // Use a placeholder card when there are no more unique cards or the game is over.
+                    newCardObject = {
+                        uniqueGridId: -1,
+                        originalIndex: -1,
+                        data: { question: "", answer: "", options: [], difficulty: 0 },
+                        answered: true
+                    };
+                }
+                availableCards.unshift(newCardObject);
+            }
 
+            // Ensure the array size stays at 9 (3x3 grid). Normally, after removing two cards
+            // and adding two, the length will already be 9. This check is defensive.
             if (availableCards.length > 9) {
-                 availableCards.pop();
+                availableCards.length = 9;
             }
 
+            // Reassign uniqueGridId based on the new positions
             availableCards.forEach((card, index) => {
                 card.uniqueGridId = index;
             });
@@ -1627,7 +1767,14 @@ window.updateScoreDisplay();
                 flashcardSetSelect.addEventListener('change', handleFlashcardSetChange);
             }
 
-            await loadFlashcards(currentFlashcardSetUrl); 
+            // Attach handler for the end-game button
+            if (endGameButton) {
+                endGameButton.addEventListener('click', () => {
+                    showEndGameSummary();
+                });
+            }
+
+            await loadFlashcards(currentFlashcardSetUrl);
         };
   </script>
 </body>
