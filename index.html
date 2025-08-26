@@ -749,21 +749,23 @@
         };
 
         const FLASHCARD_SETS = {
-            "1.rocnik_rany_vrcholny_stredovek": {
-                name: "Středověk až po reformaci",
-                url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQcFX-XElafI31HsHhWZ_e8xdCJREnUMvVkv3u0YG31yd7VAwhX2o8WnxKXrjZBkLhR3rreQaJtqVHO/pub?gid=1607867200&single=true&output=tsv"
-            },
-            "2.rocnik_rany_novovek_19_stoleti": {
-                name: "Raný novověk až po průmyslovou revoluci",
-                url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTZkADdaKWqFzTm6EVGquT6ZIxKOFpPC4dmHzBMgaMP2-TZCE99Hhh2sX3aoGR7ohx3BF8VNGY8IrU6/pub?gid=997575850&single=true&output=tsv"
-            },
-            "3.rocnik_moderni_dejiny": {
+            vsehochut: {
                 name: "Všehochuť",
-                url: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTldhmt4IR1qDuF8WOJXsu0yDPRDV41RpLs4cLY3sVZUH9dXwJsiXL_rjyaJBakg2yn4NEh6f8vG5vB/pub?output=tsv"
+                url: "data/vsehochut.tsv"
+            },
+            karty7_10: {
+                name: "Karty 7–10",
+                url: "data/karty7-10.tsv"
+            },
+            karty11_15: {
+                name: "Karty 11–15",
+                url: "data/karty11-15.tsv"
             }
         };
-
-        let currentFlashcardSetUrl = FLASHCARD_SETS["1.rocnik_rany_vrcholny_stredovek"].url;
+        {
+            const defaultSetKey = Object.keys(FLASHCARD_SETS)[0];
+            var currentFlashcardSetUrl = FLASHCARD_SETS[defaultSetKey].url;
+        }
 
         let players = [];
         let currentPlayerIndex = 0;
@@ -1650,51 +1652,61 @@ window.updateScoreDisplay();
             }
             
             try {
-                const response = await fetch(urlToLoad);
+                // Fetch the flashcard data.  Use no-store caching to avoid stale data.
+                const response = await fetch(urlToLoad, { cache: "no-store" });
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                const tsvData = await response.text();
+                const rawData = await response.text();
+                let cards = [];
+                const lowerUrl = urlToLoad.trim().toLowerCase();
+                const isJson = lowerUrl.endsWith('.json');
 
-                const lines = tsvData.split('\n').filter(line => line.trim() !== '');
-                if (lines.length <= 1) {
-                    throw new Error('No flashcard data found in the spreadsheet or invalid format.');
-                }
-
-                const headers = lines[0].split('\t').map(h => h.trim().toLowerCase());
-
-                const dataRows = lines.slice(1);
-
-                flashcardsData = dataRows.map(row => {
-                    const values = row.split('\t').map(v => v.trim());
-                    const card = {};
-                    
-                    headers.forEach((header, index) => {
-                        const value = values[index];
-                        if (header === "question") {
-                            card.question = value;
-                        } else if (header === "correct answer") {
-                            card.answer = value;
-                        } else if (header.startsWith("option")) {
-                            if (!card.options) card.options = [];
-                            if (value) card.options.push(value);
-                        } else if (header === "difficulty") {
-                            card.difficulty = parseInt(value) || 1;
-                        }
-                    });
-                    
-                    if (!card.options) card.options = [];
-
-                    if (!card.question || !card.answer) {
-                        console.warn("Skipping malformed flashcard row (missing question or answer):", row, "Parsed card:", card);
-                        return null;
+                if (isJson) {
+                    // Parse JSON: expect an array of objects with question/answer/options/difficulty.
+                    const parsed = JSON.parse(rawData);
+                    cards = parsed.map(item => ({
+                        question: (item.question ?? '').trim(),
+                        answer: (item.answer ?? '').trim(),
+                        options: Array.isArray(item.options) ? item.options.filter(opt => opt && opt.trim().length > 0) : [],
+                        difficulty: Number(item.difficulty) || 1
+                    })).filter(c => c.question && c.answer);
+                } else {
+                    // Parse TSV.  Split into lines and handle optional Windows \r characters.
+                    const lines = rawData.replace(/\r/g, '').split('\n').filter(line => line.trim() !== '');
+                    if (lines.length <= 1) {
+                        throw new Error('No flashcard data found in the TSV file or invalid format.');
                     }
-                    return card;
-                }).filter(card => card !== null);
-
-                if (flashcardsData.length === 0) {
-                    throw new Error('Parsed flashcard data is empty. Check spreadsheet format. (No valid cards found)');
+                    const headers = lines[0].split('\t').map(h => h.trim().toLowerCase());
+                    const rows = lines.slice(1);
+                    cards = rows.map(row => {
+                        const values = row.split('\t').map(v => v.trim());
+                        const card = { options: [] };
+                        headers.forEach((header, idx) => {
+                            const value = values[idx] ?? '';
+                            if (header === 'question') {
+                                card.question = value;
+                            } else if (header === 'correct answer') {
+                                card.answer = value;
+                            } else if (header.startsWith('option')) {
+                                if (value) {
+                                    card.options.push(value);
+                                }
+                            } else if (header === 'difficulty') {
+                                card.difficulty = parseInt(value) || 1;
+                            }
+                        });
+                        if (!card.question || !card.answer) {
+                            return null;
+                        }
+                        return card;
+                    }).filter(Boolean);
                 }
+
+                if (cards.length === 0) {
+                    throw new Error('Parsed flashcard data is empty. Check TSV/JSON format. (No valid cards found)');
+                }
+                flashcardsData = cards;
 
                 if (gameSetupScreen) {
                     gameSetupScreen.innerHTML = `
