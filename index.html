@@ -651,6 +651,20 @@
     </div>
   </div>
   <script>
+        /**
+         * Escapes a value so it can be safely placed inside an HTML attribute.
+         * Card data comes from the TSV files and may contain quotes, which would
+         * otherwise terminate the attribute early and truncate the value.
+         */
+        function escapeAttr(value) {
+            return String(value ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+        }
+
         // Otevře modal pro úpravu jména a ikony daného hráče
         function openEditPlayerModal(index) {
             const player = players[index];
@@ -671,7 +685,7 @@
             const contentHTML = `
                 <div class="text-left">
                     <label class="block text-sm font-medium text-gray-700 mb-1">Jméno hráče</label>
-                    <input id="edit-player-name" type="text" value="${player.name}"
+                    <input id="edit-player-name" type="text" value="${escapeAttr(player.name)}"
                            class="w-full p-2 border border-gray-300 rounded mb-4" />
         
                     <label class="block text-sm font-medium text-gray-700 mb-2">Vyberte ikonu</label>
@@ -1318,7 +1332,7 @@ window.updateScoreDisplay();
             let options = [...qData.options, qData.answer];
             shuffleArray(options);
             let optionsHtml = options.map(option => `
-                <button class="option-button rounded-lg" data-answer="${option}">
+                <button class="option-button rounded-lg" data-answer="${escapeAttr(option)}">
                     ${option}
                 </button>
             `).join('');
