@@ -763,6 +763,24 @@
             5: 35
         };
 
+        // The grid always holds this many slots.
+        const GRID_SIZE = 9;
+        // Answering a card also discards the bottom-right card of the grid, so
+        // every answer takes two cards out of the deck (see nextPlayerTurn).
+        const CARDS_CONSUMED_PER_ANSWER = 2;
+
+        /**
+         * Highest number of questions a deck can actually serve.
+         * The grid is filled with GRID_SIZE cards before the first question and
+         * each answer consumes CARDS_CONSUMED_PER_ANSWER more, so a deck runs dry
+         * long before as many questions as it has cards have been asked. Without
+         * this cap the slider offers totals the deck cannot deliver and the game
+         * ends early with "vycerpany vsechny unikatni karticky".
+         */
+        function maxQuestionsForDeck(deckSize) {
+            return Math.max(1, Math.ceil((deckSize - GRID_SIZE) / CARDS_CONSUMED_PER_ANSWER));
+        }
+
         const FLASHCARD_SETS = {
             vsehochut: {
                 name: "Všehochuť, střední škola",
@@ -954,11 +972,12 @@
             }
             
             const selectedPlayers = parseInt(numPlayersInput.value);
+            const maxQuestions = maxQuestionsForDeck(flashcardsData.length);
             let defaultValue = DEFAULT_CARDS_PER_PLAYER[selectedPlayers] || DEFAULT_CARDS_PER_PLAYER[1];
-            defaultValue = Math.min(defaultValue, flashcardsData.length);
+            defaultValue = Math.min(defaultValue, maxQuestions);
 
             totalCardsInput.value = defaultValue;
-            totalCardsInput.max = flashcardsData.length;
+            totalCardsInput.max = maxQuestions;
             totalCardsValueSpan.textContent = defaultValue;
             numPlayersValueSpan.textContent = selectedPlayers;
         }
@@ -1015,8 +1034,9 @@ window.updateScoreDisplay();
                 numPlayers = 1; 
                 numPlayersInput.value = 1;
             }
-            if (isNaN(TOTAL_CARDS_TO_ANSWER) || TOTAL_CARDS_TO_ANSWER < 1 || TOTAL_CARDS_TO_ANSWER > flashcardsData.length) {
-                TOTAL_CARDS_TO_ANSWER = Math.min(DEFAULT_CARDS_PER_PLAYER[numPlayers], flashcardsData.length);
+            const maxQuestions = maxQuestionsForDeck(flashcardsData.length);
+            if (isNaN(TOTAL_CARDS_TO_ANSWER) || TOTAL_CARDS_TO_ANSWER < 1 || TOTAL_CARDS_TO_ANSWER > maxQuestions) {
+                TOTAL_CARDS_TO_ANSWER = Math.min(DEFAULT_CARDS_PER_PLAYER[numPlayers], maxQuestions);
                 totalCardsInput.value = TOTAL_CARDS_TO_ANSWER;
             }
 
@@ -1654,7 +1674,7 @@ window.updateScoreDisplay();
         }
 
         /**
-         * Loads flashcards data from the specified Google Sheet TSV URL.
+         * Loads flashcard data from a TSV (or JSON) file shipped in data/.
          */
         async function loadFlashcards(urlToLoad = currentFlashcardSetUrl) {
             updateDomElementReferences();
@@ -1789,9 +1809,9 @@ window.updateScoreDisplay();
                     <p class="text-lg font-bold text-red-600 mb-4">"${failedSetName}"</p>
                     <p class="text-sm text-gray-600 mb-4">Prosím, zkontrolujte:</p>
                     <ul class="text-sm text-gray-600 text-left list-disc list-inside mb-4">
-                        <li>Zda je adresa URL správná: <a href="${urlToLoad}" target="_blank" class="text-blue-500 underline">odkaz na tabulku</a>.</li>
-                        <li>Zda je Google tabulka sdílena jako "Publikovat na webu" ve formátu TSV.</li>
-                        <li>Zda má tabulka správné záhlaví sloupců (ignorují se mezery a velikost písmen): <strong>"Question", "Correct Answer", "Option 1", "Option 2", "Difficulty"</strong>.</li>
+                        <li>Zda soubor existuje: <a href="${escapeAttr(urlToLoad)}" target="_blank" class="text-blue-500 underline">${urlToLoad}</a>.</li>
+                        <li>Zda je stránka spuštěná přes webový server (adresa začíná <strong>http://</strong> nebo <strong>https://</strong>). Otevřená přímo ze souboru (<strong>file://</strong>) prohlížeč načtení dat zablokuje.</li>
+                        <li>Zda má soubor správné záhlaví sloupců oddělené tabulátory (ignorují se mezery a velikost písmen): <strong>"Question", "Correct Answer", "Option 1", "Option 2", "Difficulty"</strong>.</li>
                         <li>Zda nejsou sloupce "Question" nebo "Correct Answer" prázdné pro všechny řádky s otázkami.</li>
                     </ul>
                     <p class="text-sm text-gray-600">Detaily chyby: ${error.message}</p>
