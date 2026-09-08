@@ -2,7 +2,7 @@ Question	Correct Answer	Option 1	Option 2	Difficulty
 Které aminokyseliny jsou esenciální?	které si tělo nedokáže vyrobit	které obsahují síru	které jsou bazické	2
 Jaká je Taylorova řada pro e^x v okolí bodu 0?	∑(xⁿ/n!)	∑(xⁿ)	∑(xⁿ/n)	3
 Co je to chirální centrum v organické chemii?	uhlík se 4 různými substituenty	dvojná vazba C=C	aromatický kruh	3
-Který autor napsal 'Haška'?	Jaroslav Hašek	Karel Čapek	Alois Jirásek	1
+Který autor napsal 'Švejka'?	Jaroslav Hašek	Karel Čapek	Alois Jirásek	1
 Kdo byl vůdcem husitů?	Jan Žižka	Jan Hus	Prokop Holý	1
 Kolik komor má srdce savců?	4	2	3	1
 Jaký je rozdíl mezi „lie“ a „lay“?	„lie“ je nepřechodné, „lay“ je přechodné	„lie“ je minulý čas od „lay“	jsou synonyma	2
@@ -120,7 +120,7 @@ Jaký je produkt glykolýzy?	pyruvát	glukóza	laktát	2
 Jaká je perioda kyvadla délky 1 m? (g ≈ 10 m/s²)	2π√(l/g) ≈ 2 s	1 s	4 s	2
 Od kolika let lze volit do poslanecké sněmovny?	18 let	21 let	16 let	1
 Který průliv odděluje Evropu od Afriky?	Gibraltarský průliv	Bosporský průliv	Dardanelský průliv	2
-Jaký byl oficiální název říše Karla Velikého po korunovaci?	Sacrum Romanum Imperium	Imperium Francorum	Regnum Franciae	3
+Jak se dobově označovala říše Karla Velikého?	Imperium Francorum (Franská říše)	Sacrum Romanum Imperium (Svatá říše římská)	Regnum Italiae (Italské království)	3
 Co je to polymorfismus v OOP?	schopnost objektů různých tříd reagovat na stejné zprávy	dědičnost tříd	zapouzdření dat	3
 Kolik oceánů je na Zemi?	5	4	6	1
 Ve kterém roce skončila první světová válka?	1918	1917	1919	1
@@ -130,11 +130,11 @@ Co je to subsidiárnost v EU?	rozhodování na nejnižší možné úrovni	finan
 Co je to IP adresa?	jedinečný identifikátor v síti	typ procesoru	druh kabelu	2
 Na kterém kontinentě leží Egypt?	Afrika	Asie	Evropa	1
 Kolik aminokyselin je proteinogenních?	20	16	24	2
-Jaká je Eulerova formule?	e^(iπ) + 1 = 0	E = mc²	F = ma	3
+Jak zní Eulerova identita?	e^(iπ) + 1 = 0	E = mc²	F = ma	3
 Co je to enantiomerie?	stereoizomerie s chirálními centry	konformační izomerie	polohová izomerie	3
 Který autor napsal 'Válku s mloky'?	Karel Čapek	Josef Čapek	Karel Poláček	1
 Kdo objevil Ameriku?	Kryštof Kolumbus	Vasco da Gama	Marco Polo	1
-Kolik komorového srdce mají ryby?	2	3	4	1
+Z kolika oddílů se skládá srdce ryb?	2 (předsíň a komora)	3	4	1
 Jaký je rozdíl mezi „borrow“ a „lend“?	„borrow“ je půjčit si, „lend“ je půjčit	„borrow“ je formálnější	jsou synonyma	2
 Co je princip proporcionality v EU?	přiměřenost opatření vůči cíli	rovnoměrné zastoupení	finanční poměry	3
 Jaká je jednotka energie?	Joule (J)	Newton (N)	Watt (W)	1
@@ -152,7 +152,7 @@ Jaký je plural od 'mouse'?	mice	mouses	mouse	1
 Kolik procent je 1/4?	25%	20%	30%	1
 Jaká je jednotka magnetické indukce?	Tesla (T)	Weber (Wb)	Henry (H)	2
 Co je 'passive voice'?	trpný rod	minulý čas	podmiňovací způsob	3
-Kolik má spektrum základních barev?	7	3	5	1
+Na kolik barev rozdělil Newton sluneční spektrum?	7	3	5	1
 Jaký je princip blockchain technologie?	decentralizovaná databáze s hash vazbami	centrální databáze	šifrování souborů	3
 Co je to plebiscit?	hlasování o důležité otázce	typ voleb	demonstrace	2
 Kde se nacházejí Andy?	západní Jižní Amerika	východní Jižní Amerika	Severní Amerika	2
@@ -163,7 +163,7 @@ Jaký je princip PCR (polymerázová řetězová reakce)?	amplifikace DNA sekven
 Co znamená 'small'?	malý	velký	rychlý	1
 Jaký literární druh představuje balada?	lyricko-epika	čistá lyrika	drama	2
 Co je to JavaScript?	skriptovací jazyk pro web	databázový jazyk	operační systém	2
-Jaký je hlavní organ EU pro přijímání zákonů?	Evropský parlament	Evropská komise	Rada EU	1
+Kdo v EU schvaluje zákony?	Evropský parlament a Rada EU společně	Evropská komise sama	Evropská rada	1
 Jaká je elektronová konfigurace atomu chromu (Cr, Z=24)?	[Ar] 3d⁵ 4s¹	[Ar] 3d⁴ 4s²	[Ar] 3d⁶	3
 Který orgán filtruje krev u člověka?	ledviny	játra	slezina	1
 Jaká je chemická značka pro vodík?	H	He	Hy	1
@@ -255,7 +255,7 @@ Co je to návrhový vzor Singleton?	třída s pouze jednou instancí	dědičnost
 Který je největší oceán světa?	Tichý oceán	Atlantský oceán	Indický oceán	1
 Ve kterém roce začala druhá světová válka?	1939	1938	1940	1
 Co je to rekurze v programování?	funkce, která volá sama sebe	opakování cyklu	dědičnost tříd	2
-Jaký je poměr genotypů při monohybridním křížení F2?	1:02:01	3:1	1:1	2
+Jaký je poměr genotypů při monohybridním křížení F2?	1:2:1	3:1	1:1	2
 Co je to solidarita v EU?	vzájemná pomoc mezi členy	hospodářská politika	vojenská spolupráce	2
 Co je to URL adresa?	jednotný lokátor zdrojů	typ sítě	druh programu	2
 Na kterém kontinentě leží Brazílie?	Jižní Amerika	Severní Amerika	Afrika	1
